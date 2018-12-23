@@ -9,13 +9,11 @@ const http = require('http')
 const https = require('https')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
-
-const { resolve } = require('path')
+const path = require('path')
 
 const DEFAULT_PORT = 3000
-const APP_NAME = 'london-travel'
 
-require('dotenv').config({ path: resolve(`${__dirname}/.env`) })
+require('dotenv').config({ path: path.resolve(`${__dirname}/.env`) })
 
 const app = express()
 
@@ -28,7 +26,7 @@ const {
   CERT,
 } = process.env
 
-const stream = rfs(`logs/${APP_NAME}.log`, {
+const stream = rfs(`logs/london-travel.log`, {
   size: '1M',
   interval: '1d',
   rotate: 31,
@@ -47,16 +45,22 @@ app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined', {
   stream: NODE_ENV === 'development' ? process.stdout : stream,
 }))
 
-require('./routes')(app)
+fs.readdir(path.resolve('routes/'), (err, files) => {
+  if (err) throw new Error(`Couldn\'t load routes: ${err}`)
+
+  files.forEach(file => { require(path.resolve(`routes/${file}`))(app) })
+})
 
 if (USE_TEST_DATA) { console.log('Using test data. Unset USE_TEST_DATA to use live feeds.') }
 if (NODE_ENV === 'development') { console.log('Starting in development mode.') }
+
+const port = PORT || DEFAULT_PORT
 
 if (NODE_ENV === 'production') {
   https.createServer({
     key: fs.readFileSync(KEY, 'utf8'),
     cert: fs.readFileSync(CERT, 'utf8'),
-  }, app).listen(PORT || DEFAULT_PORT)
+  }, app).listen(port)
 } else {
-  http.createServer(app).listen(PORT || DEFAULT_PORT)
+  http.createServer(app).listen(port, () => console.log(`[dev] HTTP server listening on ${port}.`))
 }
