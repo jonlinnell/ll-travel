@@ -22,17 +22,17 @@ const app = express()
 const {
   ALLOWED_ORIGINS,
   USE_TEST_DATA,
-  LOG_DIR,
   NODE_ENV,
   PORT,
   KEY,
   CERT,
 } = process.env
 
-const stream = rfs(resolve(LOG_DIR ? `${LOG_DIR}/${APP_NAME}.log` : `${__dirname}/../logs/${APP_NAME}.log`), {
-  size: '10M',
+const stream = rfs(`logs/${APP_NAME}.log`, {
+  size: '1M',
   interval: '1d',
-  compress: 'gzip',
+  rotate: 31,
+  compress: true,
 })
 
 app.use(bodyParser.json())
