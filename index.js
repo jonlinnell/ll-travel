@@ -20,7 +20,7 @@ require('dotenv').config({ path: resolve(`${__dirname}/.env`) })
 const app = express()
 
 const {
-  ALLOWED_ORIGINS,
+  ORIGIN,
   USE_TEST_DATA,
   NODE_ENV,
   PORT,
@@ -37,9 +37,11 @@ const stream = rfs(`logs/${APP_NAME}.log`, {
 
 app.use(bodyParser.json())
 
-app.use(cors({
-  origin: ALLOWED_ORIGINS ? ALLOWED_ORIGINS.split(',') : true,
-}))
+var corsOptions = {
+  origin: ORIGIN || true
+}
+
+app.use(cors(corsOptions))
 
 app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined', {
   stream: NODE_ENV === 'development' ? process.stdout : stream,
