@@ -26,7 +26,7 @@ const {
   CERT,
 } = process.env
 
-const stream = rfs(`logs/london-travel.log`, {
+const stream = rfs('logs/london-travel.log', {
   size: '1M',
   interval: '1d',
   rotate: 31,
@@ -35,8 +35,8 @@ const stream = rfs(`logs/london-travel.log`, {
 
 app.use(bodyParser.json())
 
-var corsOptions = {
-  origin: ORIGIN || true
+const corsOptions = {
+  origin: ORIGIN || true,
 }
 
 app.use(cors(corsOptions))
@@ -46,9 +46,11 @@ app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined', {
 }))
 
 fs.readdir(path.resolve('routes/'), (err, files) => {
-  if (err) throw new Error(`Couldn\'t load routes: ${err}`)
+  if (err) throw new Error(`Couldn't load routes: ${err}`)
 
-  files.forEach(file => { require(path.resolve(`routes/${file}`))(app) })
+  // eslint-disable-next-line
+  files.forEach((file) => { require(path.resolve(`routes/${file}`))(app) })
+  // @TODO use Router() like a normal dev
 })
 
 if (USE_TEST_DATA) { console.log('Using test data. Unset USE_TEST_DATA to use live feeds.') }
