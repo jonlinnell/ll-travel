@@ -5,6 +5,7 @@
 
 # production
 client/dist
+.cache
 
 # Logs
 logs
