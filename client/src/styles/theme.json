@@ -1,0 +1,187 @@
+{
+  "radius": "6px",
+  "boxPadding": "6px",
+  "boxMargin": "24px",
+  "baseFontSize": "16px",
+  "navbar": {
+    "height": 32,
+    "units": "px"
+  },
+  "colours": {
+    "bus": {
+      "colour": "rgb(220, 36, 31)"
+    },
+    "rail": {
+      "colour": "rgb(56, 76, 139)"
+    },
+    "overground": {
+      "colour": "rgb(239, 123, 16)"
+    },
+    "text": {
+      "light": "white",
+      "dark": "rgb(29, 25, 22)"
+    },
+    "africanViolet": {
+      "colour": "rgb(54, 17, 99)",
+      "text": "light"
+    },
+    "africanVioletLight": {
+      "colour": "rgb(111, 48, 146)",
+      "text": "light"
+    },
+    "mulberry": {
+      "colour": "rgb(183, 0, 98)",
+      "text": "light"
+    },
+    "mulberryLight": {
+      "colour": "rgb(237, 36, 130)",
+      "text": "light"
+    },
+    "golden": {
+      "colour": "rgb(231, 126, 29)",
+      "text": "light"
+    },
+    "goldenLight": {
+      "colour": "rgb(251, 170, 27)",
+      "text": "dark"
+    },
+    "bronze": {
+      "colour": "rgb(242, 106, 56)",
+      "text": "light"
+    },
+    "bronzeDark": {
+      "colour": "rgb(152, 51, 29)",
+      "text": "light"
+    },
+    "petrolBlue": {
+      "colour": "rgb(0, 94, 130)",
+      "text": "light"
+    },
+    "petrolBlueLight": {
+      "colour": "rgb(0, 155, 201)",
+      "text": "dark"
+    },
+    "merciaRed": {
+      "colour": "rgb(167, 5, 49)",
+      "text": "light"
+    },
+    "merciaRedLight": {
+      "colour": "rgb(238, 47, 79)",
+      "text": "light"
+    },
+    "peacock": {
+      "colour": "rgb(0, 170, 173)",
+      "text": "dark"
+    },
+    "peacockLight": {
+      "colour": "rgb(84, 198, 213)",
+      "text": "light"
+    },
+    "neptune": {
+      "colour": "rgb(0, 97, 103)",
+      "text": "light"
+    },
+    "neptuneLight": {
+      "colour": "rgb(120, 178, 187)",
+      "text": "light"
+    },
+    "olympicGreen": {
+      "colour": "rgb(0, 170, 135)",
+      "text": "light"
+    },
+    "olympicGreenDark": {
+      "colour": "rgb(0, 110, 85)",
+      "text": "light"
+    },
+    "cedar": {
+      "colour": "rgb(177, 190, 45)",
+      "text": "light"
+    },
+    "cedarLight": {
+      "colour": "rgb(225, 202, 0)",
+      "text": "dark"
+    },
+    "asphalt": {
+      "colour": "rgb(82, 94, 102)",
+      "text": "light"
+    },
+    "silver": {
+      "colour": "rgb(140, 140, 141)",
+      "text": "light"
+    },
+    "fountainGrey": {
+      "colour": "rgb(203, 206, 206)",
+      "text": "dark"
+    },
+    "pebble": {
+      "colour": "rgb(113, 95, 84)",
+      "text": "light"
+    },
+    "doveGrey": {
+      "colour": "rgb(168, 155, 145)",
+      "text": "light"
+    },
+    "pearlWhite": {
+      "colour": "rgb(210, 201, 193)",
+      "text": "dark"
+    }
+  },
+  "lines": {
+    "bakerloo": {
+      "colour": "rgb(178,99,0)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "central": {
+      "colour": "rgb(220,36,31)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "circle": {
+      "colour": "rgb(255,211,41)",
+      "text": "rgb(0,25,168)"
+    },
+    "district": {
+      "colour": "rgb(0,125,50)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "hammersmith-city": {
+      "colour": "rgb(244,169,190)",
+      "text": "rgb(0,25,168)"
+    },
+    "jubilee": {
+      "colour": "rgb(161,165,167)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "metropolitan": {
+      "colour": "rgb(155,0,88)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "northern": {
+      "colour": "rgb(0,0,0)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "piccadilly": {
+      "colour": "rgb(0,25,168)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "victoria": {
+      "colour": "rgb(0,152,216)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "waterloo-city": {
+      "colour": "rgb(147,206,186)",
+      "text": "rgb(0,25,168)"
+    },
+    "dlr": {
+      "colour": "rgb(0,175,173)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "london-overground": {
+      "colour": "rgb(239,123,16)",
+      "text": "rgb(255, 255, 255)"
+    },
+    "tfl-rail": {
+      "colour": "rgb(0,25,168)",
+      "text": "rgb(255, 255, 255)"
+    }
+  }
+}

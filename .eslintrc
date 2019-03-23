@@ -1,6 +1,3 @@
 {
-    "extends": "airbnb-base",
-    "rules": {
-      "semi": [2, "never"]
-    }
+    "extends": ["airbnb-base", "plugin:prettier/recommended"]
 }
