@@ -1,8 +1,9 @@
 const cache = require('memory-cache')
+const router = require('express').Router()
 
 const getBusDepartures = require('../lib/getBusDepartures')
 
-module.exports = app => app.get('/bus/:stopCode/:limit?', (req, res) => {
+router.get('/:stopCode/:limit?', (req, res) => {
   if (!req.params.stopCode) res.status(400).send('No stop code provided.')
 
   const cacheRequestKey = `bus-${req.params.stopCode}`
@@ -19,3 +20,5 @@ module.exports = app => app.get('/bus/:stopCode/:limit?', (req, res) => {
       .catch(error => res.status(500).send(`An error occurred loading the bus data: ${error}`))
   }
 })
+
+module.exports = router

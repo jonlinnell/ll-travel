@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /* eslint-disable no-console */
 
+require('dotenv').config()
+
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
@@ -9,11 +11,13 @@ const http = require('http')
 const https = require('https')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
-const path = require('path')
+
+const routesBus = require('./routes/bus')
+const routesRail = require('./routes/rail')
+const routesTube = require('./routes/tube')
+const routesSearchStations = require('./routes/searchStations')
 
 const DEFAULT_PORT = 3000
-
-require('dotenv').config({ path: path.resolve(`${__dirname}/.env`) })
 
 const app = express()
 
@@ -33,25 +37,20 @@ const stream = rfs('logs/london-travel.log', {
   compress: true,
 })
 
-app.use(bodyParser.json())
-
 const corsOptions = {
   origin: ORIGIN || true,
 }
 
+app.use(bodyParser.json())
 app.use(cors(corsOptions))
-
 app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined', {
   stream: NODE_ENV === 'development' ? process.stdout : stream,
 }))
 
-fs.readdir(path.resolve('routes/'), (err, files) => {
-  if (err) throw new Error(`Couldn't load routes: ${err}`)
-
-  // eslint-disable-next-line
-  files.forEach((file) => { require(path.resolve(`routes/${file}`))(app) })
-  // @TODO use Router() like a normal dev
-})
+app.use('/bus', routesBus)
+app.use('/rail', routesRail)
+app.use('/tube', routesTube)
+app.use('/searchStations', routesSearchStations)
 
 if (USE_TEST_DATA) { console.log('Using test data. Unset USE_TEST_DATA to use live feeds.') }
 if (NODE_ENV === 'development') { console.log('Starting in development mode.') }

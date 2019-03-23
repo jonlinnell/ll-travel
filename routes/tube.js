@@ -1,10 +1,11 @@
 const cache = require('memory-cache')
+const router = require('express').Router()
 
 const fetchTubeStatus = require('../lib/fetchTubeStatus')
 
 const CACHE_KEY = 'tube'
 
-module.exports = app => app.get('/tube', (req, res) => {
+router.get('/', (req, res) => {
   const cachedData = cache.get(CACHE_KEY)
 
   if (cachedData) {
@@ -18,3 +19,5 @@ module.exports = app => app.get('/tube', (req, res) => {
       .catch(error => res.status(500).send(`An error occurred loading the tube data: ${error}`))
   }
 })
+
+module.exports = router

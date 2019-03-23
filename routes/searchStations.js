@@ -1,6 +1,9 @@
 const searchStations = require('../lib/searchStations')
+const router = require('express').Router()
 
-module.exports = app => app.get('/searchStations/:string', (req, res) => {
+router.get('/:string', (req, res) => {
   searchStations(req.params.string)
     .then(data => res.json(data))
 })
+
+module.exports = router

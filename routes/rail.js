@@ -1,8 +1,9 @@
 const cache = require('memory-cache')
+const router = require('express').Router()
 
 const getRailDepartureBoard = require('../lib/getRailDepartureBoard')
 
-module.exports = app => app.get('/rail/:station/:destination?', (req, res) => {
+router.get('/:station/:destination?', (req, res) => {
   const { station, destination } = req.params
 
   if (!station) res.status(400).send('No station specified.')
@@ -21,3 +22,5 @@ module.exports = app => app.get('/rail/:station/:destination?', (req, res) => {
       .catch(error => res.status(500).send(error))
   }
 })
+
+module.exports = router
