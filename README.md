@@ -17,7 +17,7 @@ The project consists of a Node.js backend, used to abstract APIs and cache commo
 
 ## Configuration
 ### Backend
-Customise `.env` for your configuration before starting the backend server.
+Edit `.env` for your configuration before starting the backend server.
 #### Options
 `CERT`\*\*
 The path to your server's `fullchain.pem` file; Visit [Lets Encrypt](https://letsencrypt.org/) for information on how to get an SSL certificate..
@@ -38,6 +38,11 @@ Your TfL App ID and key. Visit the [TfL API portal](https://api.tfl.gov.uk/) for
 
 `USE_TEST_DATA`
 Prevent the server from making API calls and returning live data, instead use saved example data in `testData/`. Useful for working on the frontend without getting rate-limited or annoying TfL.
+
+### Frontend
+Edit `client/.env` to configure the frontend.
+#### Options
+`API`\*\* Your API server address, accessible from the browser. E.g. `https://api.yourserver.com:9000/`
 
 
 \*\* = required only when `NODE_ENV === 'production`
