@@ -19,12 +19,12 @@ The project consists of a Node.js backend, used to abstract APIs and cache commo
 ### Backend
 Customise `.env` for your configuration before starting the backend server.
 #### Options
-`CERT`<span style="color: red; font-size: 0.8rem">\*\*</span>
+`CERT`\*\*
 The path to your server's `fullchain.pem` file; Visit [Lets Encrypt](https://letsencrypt.org/) for information on how to get an SSL certificate..
 
-`DARWIN_TOKEN`<span style="color: red; font-size: 0.8rem">\*</span> Your Darwin API token. Visit the [National Rail developers page](http://www.nationalrail.co.uk/100296.aspx) for more information.
+`DARWIN_TOKEN`\* Your Darwin API token. Visit the [National Rail developers page](http://www.nationalrail.co.uk/100296.aspx) for more information.
 
-`KEY`<span style="color: red; font-size: 0.8rem">\*\*</span>
+`KEY`\*\*
 The path to your server's `privkey.pem` file.
 
 `ORIGIN`
@@ -33,12 +33,13 @@ Allowed CORS origins. Use with care, and note that this app's handling of CORS i
 `PORT`
 Which port to run the server on. Defaults to 3000.
 
-`TFL_APP_ID`<span style="color: red; font-size: 0.8rem">\*</span> and `TFL_APP_KEY`<span style="color: red; font-size: 0.8rem">\*</span>
+`TFL_APP_ID`\* and `TFL_APP_KEY`\*
 Your TfL App ID and key. Visit the [TfL API portal](https://api.tfl.gov.uk/) for more information.
 
 `USE_TEST_DATA`
 Prevent the server from making API calls and returning live data, instead use saved example data in `testData/`. Useful for working on the frontend without getting rate-limited or annoying TfL.
 
 
-<span style="font-size: 0.8rem">** = required only when `NODE_ENV === 'production`</span>
-<span style="font-size: 0.8rem">* = always required</span>
+\*\* = required only when `NODE_ENV === 'production`
+
+\* = always required
