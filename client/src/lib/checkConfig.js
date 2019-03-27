@@ -1,9 +1,9 @@
 const checkConfig = () => {
   const requiredKeys = ['API']
 
-  requiredKeys.forEach(key => {
-    if (Object.keys(process.env).indexOf(key) === -1) {
-      throw new Error(`Required environment variable ${key} is not defined.`)
+  requiredKeys.forEach(option => {
+    if (!Object.keys(process.env).includes(option)) {
+      throw new Error(`[frontend] Required environment variable ${option} is not defined in client/.env .`)
     }
   })
 

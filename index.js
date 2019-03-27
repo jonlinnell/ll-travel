@@ -30,6 +30,16 @@ const {
   CERT,
 } = process.env
 
+const requiredOptions = [
+  'TFL_APP_ID',
+  'TFL_APP_KEY',
+  'DARWIN_TOKEN'
+]
+
+requiredOptions.forEach(option => {
+  if (!Object.keys(process.env).includes(option)) throw new Error(`[backend] Required environment variable ${option} is not defined in .env .`)
+})
+
 const stream = rfs('logs/london-travel.log', {
   size: '1M',
   interval: '1d',
