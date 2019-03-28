@@ -17,8 +17,8 @@ const App = () => (
       <GlobalStyles />
       <Normalize />
       {!process.env.API ? (
-        <div>
-          <h1>App not configured.</h1>
+        <div style={{ width: '100vw', padding: '10vh 5vw', textAlign: 'center' }}>
+          <h1>App not configured</h1>
           <p>
             Required environment variable
             <span style={{ fontFamily: 'Courier New' }}> API </span>has not been defined.
