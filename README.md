@@ -49,7 +49,7 @@ Edit `client/.env` to configure the frontend.
 
 #### Options
 
-`API`\*\* Your API server address, accessible from the browser. E.g. `https://api.yourserver.com:9000/`
+`API`\* Your API server address, accessible from the browser. E.g. `https://api.yourserver.com:9000/`
 
 
 \*\* = required only when `NODE_ENV === 'production`
