@@ -16,7 +16,18 @@ const App = () => (
     <Fragment>
       <GlobalStyles />
       <Normalize />
-      <ViewMain />
+      {!process.env.API ? (
+        <div>
+          <h1>App not configured.</h1>
+          <p>
+            Required environment variable
+            <span style={{ fontFamily: 'Courier New' }}> API </span>has not been defined.
+          </p>
+          <p>Please fix this before rebuilding/restarting the app.</p>
+        </div>
+      ) : (
+        <ViewMain />
+      )}
     </Fragment>
   </ThemeProvider>
 )

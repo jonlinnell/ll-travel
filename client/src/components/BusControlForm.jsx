@@ -21,6 +21,8 @@ const StyledForm = styled.div`
 `
 
 class BusControlForm extends PureComponent {
+  updateTimeoutId = null
+
   constructor(props) {
     super(props)
 
@@ -28,8 +30,6 @@ class BusControlForm extends PureComponent {
       stopCode: null,
     }
   }
-
-  updateTimeoutId = null
 
   handleChange = e => {
     const { setStopCode } = this.props

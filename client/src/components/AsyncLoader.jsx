@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 
 export default class Async extends Component {
+  cancelUpdate = null
+
+  componentWillUnmount = () => {
+    this.cancelUpdate = true
+  }
+
   componentWillMount = () => {
     const { load } = this.props
 
@@ -13,12 +19,6 @@ export default class Async extends Component {
       }
     })
   }
-
-  componentWillUnmount = () => {
-    this.cancelUpdate = true
-  }
-
-  cancelUpdate = null
 
   render() {
     const { childProps } = this.props

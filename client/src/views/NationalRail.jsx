@@ -65,6 +65,8 @@ const PosedTrainServiceContainer = posed(TrainServices)({
 const validateStationCode = stationCode => stationCode && stationCode.match(/[A-Z]{3}/)
 
 class ViewNationalRail extends PureComponent {
+  intervalId = null
+
   constructor(props) {
     super(props)
 
@@ -99,8 +101,6 @@ class ViewNationalRail extends PureComponent {
   componentWillUnmount() {
     clearInterval(this.intervalId)
   }
-
-  intervalId = null
 
   setStationCode = newStationCode => {
     clearInterval(this.intervalId)
