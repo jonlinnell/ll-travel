@@ -13,7 +13,7 @@ router.get('/:stopCode/:limit?', (req, res) => {
     res.json(cachedData)
   } else {
     getBusDepartures(req.params)
-      .then((data) => {
+      .then(data => {
         cache.put(cacheRequestKey, data, 20000)
         res.json(data)
       })

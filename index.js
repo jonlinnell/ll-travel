@@ -21,23 +21,13 @@ const DEFAULT_PORT = 3000
 
 const app = express()
 
-const {
-  ORIGIN,
-  USE_TEST_DATA,
-  NODE_ENV,
-  PORT,
-  KEY,
-  CERT,
-} = process.env
+const { ORIGIN, USE_TEST_DATA, NODE_ENV, PORT, KEY, CERT } = process.env
 
-const requiredOptions = [
-  'TFL_APP_ID',
-  'TFL_APP_KEY',
-  'DARWIN_TOKEN'
-]
+const requiredOptions = ['TFL_APP_ID', 'TFL_APP_KEY', 'DARWIN_TOKEN']
 
 requiredOptions.forEach(option => {
-  if (!Object.keys(process.env).includes(option)) throw new Error(`[backend] Required environment variable ${option} is not defined in .env .`)
+  if (!Object.keys(process.env).includes(option))
+    throw new Error(`[backend] Required environment variable ${option} is not defined in .env .`)
 })
 
 const stream = rfs('logs/london-travel.log', {
@@ -53,25 +43,37 @@ const corsOptions = {
 
 app.use(bodyParser.json())
 app.use(cors(corsOptions))
-app.use(morgan(NODE_ENV === 'development' ? 'dev' : 'combined', {
-  stream: NODE_ENV === 'development' ? process.stdout : stream,
-}))
+app.use(
+  morgan(NODE_ENV === 'development' ? 'dev' : 'combined', {
+    stream: NODE_ENV === 'development' ? process.stdout : stream,
+  })
+)
 
 app.use('/bus', routesBus)
 app.use('/rail', routesRail)
 app.use('/tube', routesTube)
 app.use('/searchStations', routesSearchStations)
 
-if (USE_TEST_DATA) { console.log('Using test data. Unset USE_TEST_DATA to use live feeds.') }
-if (NODE_ENV === 'development') { console.log('Starting in development mode.') }
+if (USE_TEST_DATA) {
+  console.log('Using test data. Unset USE_TEST_DATA to use live feeds.')
+}
+
+if (NODE_ENV === 'development') {
+  console.log('Starting in development mode.')
+}
 
 const port = PORT || DEFAULT_PORT
 
 if (NODE_ENV === 'production') {
-  https.createServer({
-    key: fs.readFileSync(KEY, 'utf8'),
-    cert: fs.readFileSync(CERT, 'utf8'),
-  }, app).listen(port)
+  https
+    .createServer(
+      {
+        key: fs.readFileSync(KEY, 'utf8'),
+        cert: fs.readFileSync(CERT, 'utf8'),
+      },
+      app
+    )
+    .listen(port)
 } else {
   http.createServer(app).listen(port, () => console.log(`[dev] HTTP server listening on ${port}.`))
 }

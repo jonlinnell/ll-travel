@@ -15,7 +15,7 @@ router.get('/:station/:destination?', (req, res) => {
     res.json(cachedData)
   } else {
     getRailDepartureBoard(req.params)
-      .then((data) => {
+      .then(data => {
         cache.put(cacheRequestKey, data, 30000)
         res.json(data)
       })

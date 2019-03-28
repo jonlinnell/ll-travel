@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     res.json(cachedData)
   } else {
     fetchTubeStatus()
-      .then((data) => {
+      .then(data => {
         cache.put(CACHE_KEY, data, 60000)
         res.json(data)
       })
