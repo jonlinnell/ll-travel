@@ -1,7 +1,7 @@
-# london-travel
-A simple mobile-first web app for checking travel information in London and the UK.
+# London Travel
+A simple mobile-first React app for checking public transport information in London and the UK.
 
-Originally built for Loughborough University London, but easily customisable.
+Originally built for Loughborough University London, but fairly easily customisable.
 
 | | |
 |:-------------------------:|:-------------------------:|
@@ -16,9 +16,13 @@ This app is intended to be a simple, user-led app for checking travel informatio
 The project consists of a Node.js backend, used to abstract APIs and cache common responses for a short periof of time, and a React frontend.
 
 ## Configuration
+
 ### Backend
+
 Edit `.env` for your configuration before starting the backend server.
+
 #### Options
+
 `CERT`\*\*
 The path to your server's `fullchain.pem` file; Visit [Lets Encrypt](https://letsencrypt.org/) for information on how to get an SSL certificate..
 
@@ -40,11 +44,43 @@ Your TfL App ID and key. Visit the [TfL API portal](https://api.tfl.gov.uk/) for
 Prevent the server from making API calls and returning live data, instead use saved example data in `testData/`. Useful for working on the frontend without getting rate-limited or annoying TfL.
 
 ### Frontend
+
 Edit `client/.env` to configure the frontend.
+
 #### Options
+
 `API`\*\* Your API server address, accessible from the browser. E.g. `https://api.yourserver.com:9000/`
 
 
 \*\* = required only when `NODE_ENV === 'production`
 
 \* = always required
+
+## Usage
+
+`yarn start`
+
+Start the server in development mode, use nodemon to monitor for changes.
+
+
+`yarn client:start`
+
+Start the client in development mode and serve locally.
+
+
+`yarn client:build`
+
+Produce a minified production build of the frontend in `client/dist`.
+
+
+`yarn lint`
+
+Run ESLint over the whole project. Frontend and backend use separate configurations. You can run them individually with `yarn client:lint` and `yarn server:lint`.
+
+## Authors
+
+* [Jon Linnell](https://github.com/jonlinnell)
+
+## License
+
+MIT. See [LICENSE](LICENSE) for details.
