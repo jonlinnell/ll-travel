@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapPin } from '@fortawesome/free-solid-svg-icons'
 
 const PristinePanel = styled.div`
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
+
+  position: absolute;
 
   padding: 0 48px;
   padding-top: 10vh;
@@ -26,14 +28,12 @@ const PristineText = styled.h3`
   font-weight: 300;
 `
 
-const PristineChildren = styled.div`
-  margin: 0 16px;
-`
-
-export default ({ children, text }) => (
-  <PristinePanel>
-    <FontAwesomeIcon icon={faMapPin} size="4x" />
-    <PristineText>{text}</PristineText>
-    <PristineChildren>{children}</PristineChildren>
-  </PristinePanel>
-)
+export default ({ children, text }) => {
+  return (
+    <PristinePanel>
+      <FontAwesomeIcon icon={faMapPin} size="4x" />
+      <PristineText>{text}</PristineText>
+      {children}
+    </PristinePanel>
+  )
+}

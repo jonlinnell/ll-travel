@@ -3,6 +3,8 @@ import styled from 'styled-components'
 const ViewContentContainer = styled.div`
   position: absolute;
   width: 100%;
+  min-height: 100vh;
+
   padding: ${({ noPadding }) => (noPadding ? '0px' : '12px')};
   padding-bottom: ${({
     theme: {

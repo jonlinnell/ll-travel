@@ -21,16 +21,14 @@ const { API } = process.env
 const INTERVAL = 30 // in seconds
 const contentContainerId = 'bus-departures-wrapper'
 
-const BusDeparturesWrapper = styled.div`
-  margin-bottom: 48px;
-`
+const BusDeparturesWrapper = styled.div``
 
 const BusContainer = styled.ul`
   list-style: none;
   margin: 0;
   padding: 0;
 
-  ß & > :nth-child(odd) {
+  & > :nth-child(odd) {
     background-color: rgba(253, 246, 225, 0.5);
   }
 `
@@ -155,48 +153,50 @@ class ViewBus extends PureComponent {
     const previousBusStops = getPreviousBusStops()
 
     return (
-      <ViewContentContainer noPadding id={contentContainerId}>
-        <Loading loading={loading && !hasError && !data.length}>
-          {pristine ? (
-            <Pristine text="Enter a stop code below to get started">
-              {previousBusStops && (
-                <RecentSearches previousSearches={previousBusStops} onSelect={this.setStopCode} />
-              )}
-            </Pristine>
-          ) : (
-            stopName && (
-              <BusDeparturesWrapper>
-                <Header
-                  title={stopName}
-                  subtitle="Next buses at this stop."
-                  icon={faBus}
-                  backgroundColour="bus"
-                  topFill
-                  useFA
-                />
-                <BusContainer>
-                  {data.map(bus => (
-                    <BusInfo bus={bus} key={bus.journeyId} />
-                  ))}
-                </BusContainer>
-                {!hasError && stopCode && data && (
-                  <Attribution>
-                    Powered by TfL Open Data. Visit tfl.gov.uk for more information.
-                  </Attribution>
+      <React.Fragment>
+        <ViewContentContainer noPadding id={contentContainerId}>
+          <Loading loading={loading && !hasError && !data.length}>
+            {pristine ? (
+              <Pristine text="Enter a stop code below to get started">
+                {previousBusStops && (
+                  <RecentSearches previousSearches={previousBusStops} onSelect={this.setStopCode} />
                 )}
-              </BusDeparturesWrapper>
-            )
+              </Pristine>
+            ) : (
+              stopName && (
+                <BusDeparturesWrapper>
+                  <Header
+                    title={stopName}
+                    subtitle="Next buses at this stop."
+                    icon={faBus}
+                    backgroundColour="bus"
+                    topFill
+                    useFA
+                  />
+                  <BusContainer>
+                    {data.map(bus => (
+                      <BusInfo bus={bus} key={bus.journeyId} />
+                    ))}
+                  </BusContainer>
+                  {!hasError && stopCode && data && (
+                    <Attribution>
+                      Powered by TfL Open Data. Visit tfl.gov.uk for more information.
+                    </Attribution>
+                  )}
+                </BusDeparturesWrapper>
+              )
+            )}
+          </Loading>
+          {hasError && (
+            <AppError
+              error={parseError(error)}
+              callerDescription="bus departure information"
+              contained
+            />
           )}
-        </Loading>
-        {hasError && (
-          <AppError
-            error={parseError(error)}
-            callerDescription="bus departure information"
-            contained
-          />
-        )}
+        </ViewContentContainer>
         <BusControlForm setStopCode={this.setStopCode} />
-      </ViewContentContainer>
+      </React.Fragment>
     )
   }
 }

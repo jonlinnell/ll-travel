@@ -1,24 +1,10 @@
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import Header from './Header'
 import Row from './Row'
 import Input from './Input'
-
-const StyledForm = styled.div`
-  background-color: ${({ theme }) => theme.colours.bus.colour};
-  padding: 12px;
-  width: 100%;
-
-  position: fixed;
-  z-index: 1;
-  bottom: ${({
-    theme: {
-      navbar: { height, units },
-    },
-  }) => `${height}${units}`};
-`
+import ControlForm from './ControlForm'
 
 class BusControlForm extends PureComponent {
   updateTimeoutId = null
@@ -55,7 +41,7 @@ class BusControlForm extends PureComponent {
 
   render() {
     return (
-      <StyledForm>
+      <ControlForm colour="bus">
         <Header title="Enter a stop code" icon={faSearch} useFA small />
         <Row>
           <Input
@@ -66,7 +52,7 @@ class BusControlForm extends PureComponent {
             onChange={this.handleChange}
           />
         </Row>
-      </StyledForm>
+      </ControlForm>
     )
   }
 }

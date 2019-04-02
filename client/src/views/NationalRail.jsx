@@ -14,6 +14,7 @@ import RecentSearches from '../components/RecentSearches'
 import TrainService from '../components/TrainService'
 import TrainStationLookup from '../components/TrainStationLookup'
 import ViewContentContainer from '../components/ViewContentContainer'
+import ControlForm from '../components/ControlForm'
 
 import IconNationalRail from '../icons/NationalRail'
 
@@ -26,7 +27,7 @@ const INTERVAL = 1 // in minutes
 const contentContainerId = 'train-services-wrapper'
 
 const DepartureBoardWrapper = styled.div`
-  margin-bottom: 48px;
+  margin-bottom: 30vh;
 `
 
 const TrainServices = styled.ul`
@@ -34,22 +35,6 @@ const TrainServices = styled.ul`
 
   margin: 0;
   padding: 0;
-`
-
-const StyledControlForm = styled.div`
-  background-color: ${({ theme }) => theme.colours.rail.colour};
-
-  padding: 12px;
-  width: 100%;
-
-  position: sticky;
-  bottom: ${({
-    theme: {
-      navbar: { height, units },
-    },
-  }) => `${height}${units}`};
-
-  z-index: 1;
 `
 
 const validateStationCode = stationCode => stationCode && stationCode.match(/[A-Z]{3}/)
@@ -214,7 +199,7 @@ class ViewNationalRail extends PureComponent {
           )}
         </Loading>
         {hasError && <AppError error={error} callerDescription="train departure board" contained />}
-        <StyledControlForm>
+        <ControlForm colour="rail">
           <Header title="Enter a station..." icon={faSearch} useFA small />
           <TrainStationLookup
             label="Station"
@@ -229,7 +214,7 @@ class ViewNationalRail extends PureComponent {
             onClear={this.clearDestinationCode}
             disabled={!stationName}
           />
-        </StyledControlForm>
+        </ControlForm>
       </ViewContentContainer>
     )
   }

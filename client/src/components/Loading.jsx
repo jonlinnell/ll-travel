@@ -6,12 +6,6 @@ const SpinnerContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  margin-bottom: -${({
-      theme: {
-        navbar: { height, units },
-      },
-    }) => `${height}${units}`};
-
   position: relative;
   top: 100px;
 
