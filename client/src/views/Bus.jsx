@@ -63,6 +63,8 @@ const parseError = error => {
 }
 
 class ViewBus extends PureComponent {
+  intervalId = null
+
   constructor(props) {
     super(props)
 
@@ -92,8 +94,6 @@ class ViewBus extends PureComponent {
   componentWillUnmount() {
     clearInterval(this.intervalId)
   }
-
-  intervalId = null
 
   setStopCode = newStopCode => {
     this.setState(

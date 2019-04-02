@@ -32,6 +32,8 @@ const LineWrapper = styled.ul`
 `
 
 class TubeStatus extends PureComponent {
+  intervalId = null
+
   constructor(props) {
     super(props)
 
@@ -51,8 +53,6 @@ class TubeStatus extends PureComponent {
   componentWillUnmount() {
     clearInterval(this.intervalId)
   }
-
-  intervalId = null
 
   fetchData = () => {
     this.setState({ loading: true })

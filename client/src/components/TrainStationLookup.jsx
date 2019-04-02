@@ -43,6 +43,8 @@ const Station = styled.li`
 `
 
 class TrainStationLookup extends PureComponent {
+  timeoutId = null
+
   constructor(props) {
     super(props)
 
@@ -57,8 +59,6 @@ class TrainStationLookup extends PureComponent {
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyPress = this.handleKeyPress.bind(this)
   }
-
-  timeoutId = null
 
   triggerFetch = () => {
     if (this.timeoutId) {
