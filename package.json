@@ -50,12 +50,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=development nodemon index.js",
-<<<<<<< HEAD
-    "client:start": "parcel serve client/src/index.html --out-dir client/dist",
-=======
     "test": "yarn lint",
     "lint": "yarn server:lint & yarn client:lint",
->>>>>>> bd58fe8323faf03471cddfb0996d764303f36f7c
     "client:build": "parcel build client/src/index.html --out-dir client/dist",
     "client:lint": "eslint --no-ignore -c client/.eslintrc --ext .js --ext .jsx client/src",
     "client:start": "parcel serve client/src/index.html --out-dir client/dist --cache-dir client/cache",
