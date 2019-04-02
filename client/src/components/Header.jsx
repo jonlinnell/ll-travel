@@ -11,9 +11,6 @@ const HeaderWrapper = styled.div`
   color: ${({ backgroundColour, theme: { colours } }) =>
     colours[backgroundColour] ? colours.text[colours[backgroundColour].text] : 'rgb(0, 0, 0)'};
 
-  margin: ${({ topFill }) => (topFill ? '-12px' : 0)};
-  margin-bottom: ${({ topFill }) => (topFill ? '12px' : 0)};
-
   padding: ${({ topFill }) => (topFill ? '12px' : 0)};
 
   width: ${({ topFill }) => (topFill ? null : '100%')};

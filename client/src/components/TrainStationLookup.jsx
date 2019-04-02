@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import posed, { PoseGroup } from 'react-pose'
 import { get } from 'lodash'
 
 import Row from './Row'
@@ -42,16 +41,6 @@ const Station = styled.li`
   padding: 6px;
   font-size: 0.9rem;
 `
-
-const PosedStationList = posed(StationList)({
-  enter: { opacity: 1, delayChildren: 300 },
-  exit: { opacity: 0 },
-})
-
-const PosedStation = posed(Station)({
-  enter: { opacity: 1 },
-  exit: { opacity: 0 },
-})
 
 class TrainStationLookup extends PureComponent {
   constructor(props) {
@@ -118,26 +107,24 @@ class TrainStationLookup extends PureComponent {
     return (
       <Fragment>
         <Autocomplete id={autocompleteId}>
-          <PosedStationList pose={searchString.length > 2 ? 'enter' : 'exit'}>
-            <PoseGroup>
-              {data.slice(0, 10).map(station => (
-                <PosedStation
-                  key={get(station, 'crs', 1)}
-                  onClick={() =>
-                    this.setState(
-                      {
-                        data: [],
-                        searchString: station.name,
-                      },
-                      () => onSubmit(station.crs)
-                    )
-                  }
-                >
-                  {get(station, 'name', '')}
-                </PosedStation>
-              ))}
-            </PoseGroup>
-          </PosedStationList>
+          <StationList pose={searchString.length > 2 ? 'enter' : 'exit'}>
+            {data.slice(0, 10).map(station => (
+              <Station
+                key={get(station, 'crs', 1)}
+                onClick={() =>
+                  this.setState(
+                    {
+                      data: [],
+                      searchString: station.name,
+                    },
+                    () => onSubmit(station.crs)
+                  )
+                }
+              >
+                {get(station, 'name', '')}
+              </Station>
+            ))}
+          </StationList>
         </Autocomplete>
         <Row>
           <Input

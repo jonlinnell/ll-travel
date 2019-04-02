@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
-import posed, { PoseGroup } from 'react-pose'
 
 const SpinnerContainer = styled.div`
   display: flex;
@@ -62,11 +61,6 @@ const SpinnerRing = styled.div`
     cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
 `
 
-const PosedContainer = posed.div({
-  enter: { opacity: 1 },
-  exit: { opacity: 0 },
-})
-
 const Spinner = () => (
   <SpinnerContainer>
     <SpinnerRing size={200} />
@@ -103,16 +97,7 @@ class Loading extends PureComponent {
     const { showSpinners } = this.state
     const { children, loading } = this.props
 
-    return (
-      <PoseGroup animateOnMount>
-        {loading && showSpinners && (
-          <PosedContainer key={1}>
-            <Spinner />
-          </PosedContainer>
-        )}
-        <PosedContainer key={2}>{children}</PosedContainer>
-      </PoseGroup>
-    )
+    return <React.Fragment>{loading && showSpinners ? <Spinner /> : children}</React.Fragment>
   }
 }
 

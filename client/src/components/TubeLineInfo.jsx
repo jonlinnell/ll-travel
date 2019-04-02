@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import posed from 'react-pose'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
@@ -33,13 +32,8 @@ const Summary = styled.div`
   align-items: center;
 `
 
-const PosedLineContainer = posed(LineContainer)({
-  enter: { y: 0, opacity: 1 },
-  exit: { y: -20, opacity: 0 },
-})
-
 const TubeLineInfo = ({ line: { id, name, lineStatuses } }) => (
-  <PosedLineContainer id={id}>
+  <LineContainer id={id}>
     <Summary>
       <LineName>{name}</LineName>
       <LineStatusSummary>
@@ -54,7 +48,7 @@ const TubeLineInfo = ({ line: { id, name, lineStatuses } }) => (
         )}
       </LineStatusSummary>
     </Summary>
-  </PosedLineContainer>
+  </LineContainer>
 )
 
 export default TubeLineInfo

@@ -5,4 +5,4 @@ const VerticalSpacer = styled.div`
   height: ${({ size }) => size}px;
 `
 
-export default ({ size }) => <VerticalSpacer size={size} />
+export default VerticalSpacer

@@ -1,27 +1,19 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import posed from 'react-pose'
-import { Link } from '@reach/router'
+import { Link } from 'react-router-dom'
 
 import { faBus, faLink } from '@fortawesome/free-solid-svg-icons'
 import Header from '../components/Header'
 import VerticalSpacer from '../components/VerticalSpacer'
+import ViewContentContainer from '../components/ViewContentContainer'
 
 import IconTfLRoundel from '../icons/TfLRoundel'
 import IconNationalRail from '../icons/NationalRail'
 
-import MainBG from '../images/mainBG.png'
+import mainBG from '../images/mainBG.png'
 import CampusPhoto from '../images/campus.jpg'
 
 import { getSavedCookieConsent, saveCookieConsent } from '../lib/storage'
-
-const HomeWrapper = styled.div`
-  background: url(${MainBG}) repeat;
-  padding: 12px;
-  margin-top: 0;
-
-  min-height: 100vh;
-`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -65,26 +57,13 @@ const ParagraphContainer = styled.div`
   }
 `
 
-const Buttons = posed(StyledButtonList)({
-  enter: {
-    opacity: 1,
-    staggerChildren: 60,
-  },
-  exit: { opacity: 0 },
-})
-
-const PosedButton = posed(HomeButton)({
-  enter: { y: 0, opacity: 1 },
-  exit: { y: 50, opacity: 0 },
-})
-
 const Home = () => {
   setTimeout(() => saveCookieConsent(), 3000)
 
   return (
-    <HomeWrapper>
-      <Buttons initialPose="exit" pose="enter">
-        <PosedButton backgroundImage={CampusPhoto}>
+    <ViewContentContainer backgroundImage={mainBG}>
+      <StyledButtonList initialPose="exit" pose="enter">
+        <HomeButton backgroundImage={CampusPhoto}>
           <StyledExternalLink href="https://www.lborolondon.ac.uk/" target="_blank">
             <Header
               title="Loughborough University London"
@@ -93,20 +72,20 @@ const Home = () => {
               useFA
             />
           </StyledExternalLink>
-        </PosedButton>
+        </HomeButton>
         {!getSavedCookieConsent() && (
           <Fragment>
             <VerticalSpacer size={12} />
-            <PosedButton backgroundColour="pebble">
+            <HomeButton backgroundColour="pebble">
               <ParagraphContainer>
                 <p>This app uses cookies (and other similar stuff) to work better for you.</p>
                 <p>By staying on this site, you agree to this.</p>
               </ParagraphContainer>
-            </PosedButton>
+            </HomeButton>
           </Fragment>
         )}
         <VerticalSpacer size={12} />
-        <PosedButton backgroundColour="olympicGreen">
+        <HomeButton backgroundColour="olympicGreen">
           <StyledLink to="/tube">
             <Header
               title="Tube Status"
@@ -114,8 +93,8 @@ const Home = () => {
               icon={IconTfLRoundel}
             />
           </StyledLink>
-        </PosedButton>
-        <PosedButton backgroundColour="merciaRedLight">
+        </HomeButton>
+        <HomeButton backgroundColour="merciaRedLight">
           <StyledLink to="/bus">
             <Header
               title="Live Bus Times"
@@ -124,8 +103,8 @@ const Home = () => {
               useFA
             />
           </StyledLink>
-        </PosedButton>
-        <PosedButton backgroundColour="petrolBlue">
+        </HomeButton>
+        <HomeButton backgroundColour="petrolBlue">
           <StyledLink to="/rail">
             <Header
               title="Train Departure Boards"
@@ -133,14 +112,14 @@ const Home = () => {
               icon={IconNationalRail}
             />
           </StyledLink>
-        </PosedButton>
+        </HomeButton>
         <VerticalSpacer size={24} />
-        <PosedButton backgroundColour="bus">
+        <HomeButton backgroundColour="bus">
           <StyledLink to="/bus/91431,91432">
             <Header title="HereEast (388)" subtitle="London buses arriving soon outside campus." />
           </StyledLink>
-        </PosedButton>
-        <PosedButton backgroundColour="overground">
+        </HomeButton>
+        <HomeButton backgroundColour="overground">
           <StyledLink to="/rail/HKW">
             <Header
               title="Hackney Wick"
@@ -148,8 +127,8 @@ const Home = () => {
               icon={IconTfLRoundel}
             />
           </StyledLink>
-        </PosedButton>
-        <PosedButton backgroundColour="petrolBlueLight">
+        </HomeButton>
+        <HomeButton backgroundColour="petrolBlueLight">
           <StyledLink to="/rail/SFA">
             <Header
               title="Stratford International"
@@ -157,8 +136,8 @@ const Home = () => {
               icon={IconNationalRail}
             />
           </StyledLink>
-        </PosedButton>
-        <PosedButton backgroundColour="petrolBlue">
+        </HomeButton>
+        <HomeButton backgroundColour="petrolBlue">
           <StyledLink to="/rail/SRA">
             <Header
               title="Stratford"
@@ -166,9 +145,9 @@ const Home = () => {
               icon={IconNationalRail}
             />
           </StyledLink>
-        </PosedButton>
-      </Buttons>
-    </HomeWrapper>
+        </HomeButton>
+      </StyledButtonList>
+    </ViewContentContainer>
   )
 }
 

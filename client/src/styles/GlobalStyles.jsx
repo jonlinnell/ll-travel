@@ -50,13 +50,11 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
-  *, *:after, *:before {
+  *, *::after, *::before {
     box-sizing: inherit;
   }
 
   body {
-    overflow: hidden;
-
     font-family: 'DIN Light', 'Helvetica Neue', sans-serif;
   }
 `

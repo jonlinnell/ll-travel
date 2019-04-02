@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import posed from 'react-pose'
 
 import { faBus } from '@fortawesome/free-solid-svg-icons'
 
@@ -13,6 +12,7 @@ import Header from '../components/Header'
 import Loading from '../components/Loading'
 import Pristine from '../components/Pristine'
 import RecentSearches from '../components/RecentSearches'
+import ViewContentContainer from '../components/ViewContentContainer'
 
 import { addBusStop, getPreviousBusStops } from '../lib/storage'
 
@@ -21,13 +21,8 @@ const { API } = process.env
 const INTERVAL = 30 // in seconds
 const contentContainerId = 'bus-departures-wrapper'
 
-const ViewBusWrapper = styled.div`
-  height: 100%;
-  margin-bottom: 15vh;
-`
-
 const BusDeparturesWrapper = styled.div`
-  padding: 12px;
+  margin-bottom: 48px;
 `
 
 const BusContainer = styled.ul`
@@ -35,15 +30,10 @@ const BusContainer = styled.ul`
   margin: 0;
   padding: 0;
 
-  & > :nth-child(odd) {
+  ß & > :nth-child(odd) {
     background-color: rgba(253, 246, 225, 0.5);
   }
 `
-
-const PosedBusContainer = posed(BusContainer)({
-  enter: { opacity: 1, delayChildren: 50, staggerChildren: 50 },
-  exit: { opacity: 0, staggerChildren: 10, staggerDirection: -1 },
-})
 
 // Allow xxxxx and xxxxx,xxxxx, as both are accepted by the endpoint
 const validateStopCode = stopCode =>
@@ -164,9 +154,8 @@ class ViewBus extends PureComponent {
 
     const previousBusStops = getPreviousBusStops()
 
-    // @TODO: Use PoseGroup for buses, once exit bug is fixed by maintainer
     return (
-      <ViewBusWrapper id={contentContainerId}>
+      <ViewContentContainer noPadding id={contentContainerId}>
         <Loading loading={loading && !hasError && !data.length}>
           {pristine ? (
             <Pristine text="Enter a stop code below to get started">
@@ -185,11 +174,11 @@ class ViewBus extends PureComponent {
                   topFill
                   useFA
                 />
-                <PosedBusContainer initialPose="exit" pose={loading ? 'exit' : 'enter'}>
+                <BusContainer>
                   {data.map(bus => (
                     <BusInfo bus={bus} key={bus.journeyId} />
                   ))}
-                </PosedBusContainer>
+                </BusContainer>
                 {!hasError && stopCode && data && (
                   <Attribution>
                     Powered by TfL Open Data. Visit tfl.gov.uk for more information.
@@ -207,7 +196,7 @@ class ViewBus extends PureComponent {
           />
         )}
         <BusControlForm setStopCode={this.setStopCode} />
-      </ViewBusWrapper>
+      </ViewContentContainer>
     )
   }
 }

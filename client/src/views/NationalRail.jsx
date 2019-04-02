@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import posed from 'react-pose'
 import { get } from 'lodash'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -14,6 +13,7 @@ import Pristine from '../components/Pristine'
 import RecentSearches from '../components/RecentSearches'
 import TrainService from '../components/TrainService'
 import TrainStationLookup from '../components/TrainStationLookup'
+import ViewContentContainer from '../components/ViewContentContainer'
 
 import IconNationalRail from '../icons/NationalRail'
 
@@ -25,13 +25,7 @@ const INTERVAL = 1 // in minutes
 
 const contentContainerId = 'train-services-wrapper'
 
-const ViewNationalRailWrapper = styled.div`
-  height: 100%;
-  margin-bottom: 15vh;
-`
-
 const DepartureBoardWrapper = styled.div`
-  padding: 12px;
   margin-bottom: 48px;
 `
 
@@ -48,19 +42,15 @@ const StyledControlForm = styled.div`
   padding: 12px;
   width: 100%;
 
-  position: fixed;
-  z-index: 1;
+  position: sticky;
   bottom: ${({
     theme: {
       navbar: { height, units },
     },
   }) => `${height}${units}`};
-`
 
-const PosedTrainServiceContainer = posed(TrainServices)({
-  enter: { opacity: 1, delayChildren: 50, staggerChildren: 50 },
-  exit: { opacity: 0, staggerChildren: 10, staggerDirection: -1 },
-})
+  z-index: 1;
+`
 
 const validateStationCode = stationCode => stationCode && stationCode.match(/[A-Z]{3}/)
 
@@ -188,7 +178,7 @@ class ViewNationalRail extends PureComponent {
     const previousRailStations = getPreviousRailStations()
 
     return (
-      <ViewNationalRailWrapper id={contentContainerId}>
+      <ViewContentContainer noPadding id={contentContainerId}>
         <Loading loading={loading && !hasError && !data.length}>
           {pristine ? (
             <Pristine text="Lookup a train station below to get started">
@@ -212,11 +202,11 @@ class ViewNationalRail extends PureComponent {
                   topFill
                 />
               )}
-              <PosedTrainServiceContainer initialPose="exit" pose={loading ? 'exit' : 'enter'}>
+              <TrainServices>
                 {data.map((service, i) => (
                   <TrainService key={service.rsid} secondary={i % 2} {...service} />
                 ))}
-              </PosedTrainServiceContainer>
+              </TrainServices>
               {!hasError && stationName && data && (
                 <Attribution>Powered by National Rail Enquiries.</Attribution>
               )}
@@ -240,7 +230,7 @@ class ViewNationalRail extends PureComponent {
             disabled={!stationName}
           />
         </StyledControlForm>
-      </ViewNationalRailWrapper>
+      </ViewContentContainer>
     )
   }
 }

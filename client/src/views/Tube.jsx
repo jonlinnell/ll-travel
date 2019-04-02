@@ -1,20 +1,16 @@
 import React, { PureComponent } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import posed from 'react-pose'
 
 import Attribution from '../components/Attribution'
 import TubeLineInfo from '../components/TubeLineInfo'
 import AppError from '../components/AppError'
 import Loading from '../components/Loading'
+import ViewContentContainer from '../components/ViewContentContainer'
 
 const { API } = process.env
 
 const INTERVAL = 5 // in minutes
-
-const TubeStatusWrapper = styled.div`
-  margin: 12px;
-`
 
 const LineWrapper = styled.ul`
   padding: 0;
@@ -34,11 +30,6 @@ const LineWrapper = styled.ul`
     }
   }
 `
-
-const PosedLineContainer = posed(LineWrapper)({
-  enter: { beforeChildren: true, delayChildren: 100, staggerChildren: 20 },
-  exit: { staggerChildren: 10, staggerDirection: -1 },
-})
 
 class TubeStatus extends PureComponent {
   constructor(props) {
@@ -87,14 +78,12 @@ class TubeStatus extends PureComponent {
   render() {
     const { data, loading, hasError, error } = this.state
 
+    const lines = data.map(line => <TubeLineInfo line={line} key={line.id} />)
+
     return (
-      <TubeStatusWrapper>
+      <ViewContentContainer>
         <Loading loading={loading && !hasError}>
-          <PosedLineContainer initialPose="exit" pose={loading ? 'exit' : 'enter'}>
-            {data.map(line => (
-              <TubeLineInfo line={line} key={line.id} />
-            ))}
-          </PosedLineContainer>
+          <LineWrapper>{lines}</LineWrapper>
         </Loading>
         {!loading && !hasError && (
           <Attribution>
@@ -102,7 +91,7 @@ class TubeStatus extends PureComponent {
           </Attribution>
         )}
         {hasError && <AppError error={error} callerDescription="the tube status" contained />}
-      </TubeStatusWrapper>
+      </ViewContentContainer>
     )
   }
 }

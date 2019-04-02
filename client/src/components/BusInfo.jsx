@@ -1,5 +1,4 @@
 import React from 'react'
-import posed from 'react-pose'
 import styled from 'styled-components'
 
 const BusInfo = styled.li`
@@ -27,15 +26,10 @@ const BusETA = styled.span`
   margin-left: auto;
 `
 
-const PosedBusInfo = posed(BusInfo)({
-  enter: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-})
-
 export default ({ bus: { destination, service, eta } }) => (
-  <PosedBusInfo>
+  <BusInfo>
     <BusService>{service}</BusService>
     <BusDestination>{destination}</BusDestination>
     <BusETA>{eta === 0 ? 'due' : `${eta} mins`}</BusETA>
-  </PosedBusInfo>
+  </BusInfo>
 )
