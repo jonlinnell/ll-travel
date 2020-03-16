@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const testData = require('../testData/tube.json')
+const testData = require('../test-data/tube.json')
 
 const MODES = ['tube', 'overground', 'dlr', 'tflrail']
 

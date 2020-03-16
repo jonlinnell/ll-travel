@@ -2,7 +2,7 @@
   "name": "london-travel",
   "version": "0.7.0",
   "description": "Unified travel information service and frontend",
-  "licence": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
@@ -52,9 +52,9 @@
     "start": "NODE_ENV=development nodemon index.js",
     "test": "yarn lint",
     "lint": "yarn server:lint & yarn client:lint",
-    "client:build": "parcel build client/src/index.html --out-dir client/dist",
-    "client:lint": "eslint --no-ignore -c client/.eslintrc --ext .js --ext .jsx client/src",
-    "client:start": "parcel serve client/src/index.html --out-dir client/dist --cache-dir client/cache",
+    "client:build": "parcel build src/client/index.html --out-dir dist",
+    "client:lint": "eslint --no-ignore -c src/client/.eslintrc --ext .js --ext .jsx src/client",
+    "client:start": "parcel serve src/client/index.html --out-dir dist --cache-dir parcel-cache",
     "client:test": "yarn client:lint",
     "server:lint": "eslint .",
     "server:test": "yarn server:lint"

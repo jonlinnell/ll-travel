@@ -4,11 +4,11 @@
 /node_modules
 
 # production
-client/dist
+dist
+parcel-cache
 
 # Logs
-logs
-server/logs
+/logs
 
 # misc
 .DS_Store
@@ -16,8 +16,3 @@ server/logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-client/config/config.json
-
-# Testing certificates
-key.pem
-cert.pem

@@ -1,6 +1,6 @@
 const NationalRailDarwin = require('national-rail-darwin')
 
-const testData = require('../testData/rail')
+const testData = require('../test-data/rail')
 const stations = require('./railStations.json')
 
 const rail = new NationalRailDarwin(process.env.DARWIN_TOKEN)
