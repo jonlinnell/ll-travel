@@ -67,8 +67,8 @@
     "start": "NODE_ENV=development nodemon index.js",
     "test": "yarn lint",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
-    "client:build": "parcel build src/client/index.html --out-dir dist",
-    "client:start": "parcel serve src/client/index.html --out-dir dist --cache-dir parcel-cache",
+    "client:build": "parcel build src/client/index.html",
+    "client:start": "parcel serve src/client/index.html",
     "client:test": "yarn client:lint",
     "server:test": "yarn server:lint"
   },
