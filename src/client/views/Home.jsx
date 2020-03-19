@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-import posed from 'react-pose'
-import { Link } from '@reach/router'
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
+import posed from 'react-pose';
+import { Link } from '@reach/router';
 
-import { faBus, faLink } from '@fortawesome/free-solid-svg-icons'
-import Header from '../components/Header'
-import VerticalSpacer from '../components/VerticalSpacer'
+import { faBus, faLink } from '@fortawesome/free-solid-svg-icons';
+import Header from '../components/Header';
+import VerticalSpacer from '../components/VerticalSpacer';
 
-import IconTfLRoundel from '../icons/TfLRoundel'
-import IconNationalRail from '../icons/NationalRail'
+import IconTfLRoundel from '../icons/TfLRoundel';
+import IconNationalRail from '../icons/NationalRail';
 
-import MainBG from '../images/mainBG.png'
-import CampusPhoto from '../images/campus.jpg'
+import MainBG from '../images/mainBG.png';
+import CampusPhoto from '../images/campus.jpg';
 
-import { getSavedCookieConsent, saveCookieConsent } from '../lib/storage'
+import { getSavedCookieConsent, saveCookieConsent } from '../lib/storage';
 
 const HomeWrapper = styled.div`
   background: url(${MainBG}) repeat;
@@ -21,15 +21,15 @@ const HomeWrapper = styled.div`
   margin-top: 0;
 
   min-height: 100vh;
-`
+`;
 
 const StyledLink = styled(Link)`
   text-decoration: none;
-`
+`;
 
 const StyledExternalLink = styled.a`
   text-decoration: none;
-`
+`;
 
 const HomeButton = styled.li`
   padding: 12px;
@@ -42,17 +42,15 @@ const HomeButton = styled.li`
 
   background: url(${({ backgroundImage }) => backgroundImage}) center no-repeat;
   background-size: cover;
-  background-color: ${({ backgroundColour, theme: { colours } }) =>
-    colours[backgroundColour] ? colours[backgroundColour].colour : backgroundColour};
-  color: ${({ backgroundColour, theme: { colours } }) =>
-    colours[backgroundColour] ? colours.text[colours[backgroundColour].text] : 'rgb(0, 0, 0)'};
-`
+  background-color: ${({ backgroundColour, theme: { colours } }) => (colours[backgroundColour] ? colours[backgroundColour].colour : backgroundColour)};
+  color: ${({ backgroundColour, theme: { colours } }) => (colours[backgroundColour] ? colours.text[colours[backgroundColour].text] : 'rgb(0, 0, 0)')};
+`;
 
 const StyledButtonList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-`
+`;
 
 const ParagraphContainer = styled.div`
   & > p {
@@ -63,7 +61,7 @@ const ParagraphContainer = styled.div`
   & > p:last-of-type {
     margin-bottom: 0;
   }
-`
+`;
 
 const Buttons = posed(StyledButtonList)({
   enter: {
@@ -71,15 +69,15 @@ const Buttons = posed(StyledButtonList)({
     staggerChildren: 60,
   },
   exit: { opacity: 0 },
-})
+});
 
 const PosedButton = posed(HomeButton)({
   enter: { y: 0, opacity: 1 },
   exit: { y: 50, opacity: 0 },
-})
+});
 
 const Home = () => {
-  setTimeout(() => saveCookieConsent(), 3000)
+  setTimeout(() => saveCookieConsent(), 3000);
 
   return (
     <HomeWrapper>
@@ -169,7 +167,7 @@ const Home = () => {
         </PosedButton>
       </Buttons>
     </HomeWrapper>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

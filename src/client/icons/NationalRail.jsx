@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export default props => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62 39" {...props}>
@@ -7,4 +7,4 @@ export default props => (
       <path d="M0,12.4H62m0,14.2H0" strokeWidth="6" />
     </g>
   </svg>
-)
+);

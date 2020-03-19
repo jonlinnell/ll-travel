@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-const RecentSearches = styled.div``
+const RecentSearches = styled.div``;
 
 const RecentSearchesTitle = styled.h4`
   margin-bottom: 6px;
-`
+`;
 
 const RecentSearchesList = styled.ul`
   text-align: left;
@@ -15,14 +15,14 @@ const RecentSearchesList = styled.ul`
   & :last-child {
     margin-bottom: 0;
   }
-`
+`;
 
 const SearchItem = styled.li`
   text-decoration: underline;
   color: ${({ theme: { colours } }) => colours.asphalt.colour};
 
   margin-bottom: 6px;
-`
+`;
 
 export default ({ onSelect, previousSearches }) => (
   <RecentSearches>
@@ -35,4 +35,4 @@ export default ({ onSelect, previousSearches }) => (
       ))}
     </RecentSearchesList>
   </RecentSearches>
-)
+);

@@ -1,34 +1,34 @@
-import React, { PureComponent } from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
-import posed from 'react-pose'
+import React, { PureComponent } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import posed from 'react-pose';
 
-import { faBus } from '@fortawesome/free-solid-svg-icons'
+import { faBus } from '@fortawesome/free-solid-svg-icons';
 
-import AppError from '../components/AppError'
-import Attribution from '../components/Attribution'
-import BusControlForm from '../components/BusControlForm'
-import BusInfo from '../components/BusInfo'
-import Header from '../components/Header'
-import Loading from '../components/Loading'
-import Pristine from '../components/Pristine'
-import RecentSearches from '../components/RecentSearches'
+import AppError from '../components/AppError';
+import Attribution from '../components/Attribution';
+import BusControlForm from '../components/BusControlForm';
+import BusInfo from '../components/BusInfo';
+import Header from '../components/Header';
+import Loading from '../components/Loading';
+import Pristine from '../components/Pristine';
+import RecentSearches from '../components/RecentSearches';
 
-import { addBusStop, getPreviousBusStops } from '../lib/storage'
+import { addBusStop, getPreviousBusStops } from '../lib/storage';
 
-const { API } = process.env
+const { API } = process.env;
 
-const INTERVAL = 30 // in seconds
-const contentContainerId = 'bus-departures-wrapper'
+const INTERVAL = 30; // in seconds
+const contentContainerId = 'bus-departures-wrapper';
 
 const ViewBusWrapper = styled.div`
   height: 100%;
   margin-bottom: 15vh;
-`
+`;
 
 const BusDeparturesWrapper = styled.div`
   padding: 12px;
-`
+`;
 
 const BusContainer = styled.ul`
   list-style: none;
@@ -38,45 +38,44 @@ const BusContainer = styled.ul`
   & > :nth-child(odd) {
     background-color: rgba(253, 246, 225, 0.5);
   }
-`
+`;
 
 const PosedBusContainer = posed(BusContainer)({
   enter: { opacity: 1, delayChildren: 50, staggerChildren: 50 },
   exit: { opacity: 0, staggerChildren: 10, staggerDirection: -1 },
-})
+});
 
 // Allow xxxxx and xxxxx,xxxxx, as both are accepted by the endpoint
-const validateStopCode = stopCode =>
-  stopCode && (stopCode.length === 5 || stopCode.match(/[0-9]{5},[0-9]{5}/))
+const validateStopCode = stopCode => stopCode && (stopCode.length === 5 || stopCode.match(/[0-9]{5},[0-9]{5}/));
 
-const parseError = error => {
+const parseError = (error) => {
   if (error.response) {
-    const { data, status } = error.response
-    let response
+    const { data, status } = error.response;
+    let response;
 
     if (status === 500) {
       if (data.match(/416/)) {
-        response = { errorString: "This bus stop code doesn't seem to exist." }
+        response = { errorString: "This bus stop code doesn't seem to exist." };
       } else if (data.match(/response\.data\.replace is not a function/)) {
-        response = { errorString: 'No results for this stop.' }
+        response = { errorString: 'No results for this stop.' };
       } else {
-        response = { errorString: data }
+        response = { errorString: data };
       }
 
       if (response) {
-        return response
+        return response;
       }
     }
   }
 
-  return error
-}
+  return error;
+};
 
 class ViewBus extends PureComponent {
   intervalId = null
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       data: [],
@@ -86,83 +85,83 @@ class ViewBus extends PureComponent {
       pristine: true,
       stopCode: null,
       stopName: null,
-    }
+    };
 
-    this.setStopCode = this.setStopCode.bind(this)
+    this.setStopCode = this.setStopCode.bind(this);
   }
 
   componentDidMount() {
-    const { initialCode } = this.props
+    const { initialCode } = this.props;
 
-    document.getElementById(contentContainerId).scrollIntoView()
+    document.getElementById(contentContainerId).scrollIntoView();
 
     if (initialCode) {
-      this.setStopCode(initialCode)
+      this.setStopCode(initialCode);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId)
+    clearInterval(this.intervalId);
   }
 
-  setStopCode = newStopCode => {
+  setStopCode = (newStopCode) => {
     this.setState(
       {
         pristine: false,
         stopCode: newStopCode,
       },
       () => {
-        const { stopCode } = this.state
+        const { stopCode } = this.state;
 
         if (validateStopCode(stopCode)) {
-          this.fetchData()
-          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 1000)
+          this.fetchData();
+          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 1000);
 
-          document.getElementById(contentContainerId).scrollIntoView()
+          document.getElementById(contentContainerId).scrollIntoView();
         } else {
           this.setState({
             data: [],
             stopName: null,
-          })
+          });
 
-          clearInterval(this.intervalId)
+          clearInterval(this.intervalId);
         }
-      }
-    )
+      },
+    );
   }
 
   fetchData = () => {
-    const { stopCode } = this.state
+    const { stopCode } = this.state;
 
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     axios
       .get(`${API}/bus/${stopCode}`)
-      .then(response => {
+      .then((response) => {
         this.setState({
           data: response.data.buses,
           error: null,
           hasError: false,
           loading: false,
           stopName: response.data.stopName,
-        })
+        });
 
-        addBusStop({ name: response.data.stopName, code: stopCode })
+        addBusStop({ name: response.data.stopName, code: stopCode });
       })
-      .catch(error =>
-        this.setState({
-          data: [],
-          error,
-          hasError: true,
-          loading: false,
-          stopName: null,
-        })
-      )
+      .catch(error => this.setState({
+        data: [],
+        error,
+        hasError: true,
+        loading: false,
+        stopName: null,
+      }));
   }
 
   render() {
-    const { data, error, hasError, loading, pristine, stopCode, stopName } = this.state
+    const {
+      data, error, hasError, loading, pristine, stopCode, stopName,
+    } = this.state;
 
-    const previousBusStops = getPreviousBusStops()
+    const previousBusStops = getPreviousBusStops();
 
     // @TODO: Use PoseGroup for buses, once exit bug is fixed by maintainer
     return (
@@ -208,8 +207,8 @@ class ViewBus extends PureComponent {
         )}
         <BusControlForm setStopCode={this.setStopCode} />
       </ViewBusWrapper>
-    )
+    );
   }
 }
 
-export default ViewBus
+export default ViewBus;

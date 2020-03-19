@@ -1,5 +1,5 @@
-import { baseFontSize } from '../styles/theme.json'
+import { baseFontSize } from '../styles/theme.json';
 
-const NumberRegexp = new RegExp(/[0-9]+/)
+const NumberRegexp = new RegExp(/[0-9]+/);
 
-export default () => NumberRegexp.exec(baseFontSize)[0]
+export default () => NumberRegexp.exec(baseFontSize)[0];

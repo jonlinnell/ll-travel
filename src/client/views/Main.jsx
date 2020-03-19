@@ -1,17 +1,17 @@
-import React from 'react'
-import { Router, Location } from '@reach/router'
-import posed, { PoseGroup } from 'react-pose'
-import styled from 'styled-components'
+import React from 'react';
+import { Router, Location } from '@reach/router';
+import posed, { PoseGroup } from 'react-pose';
+import styled from 'styled-components';
 
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
 
-import Home from './Home'
-import Bus from './Bus'
-import NationalRail from './NationalRail'
-import Tube from './Tube'
-import About from './About'
+import Home from './Home';
+import Bus from './Bus';
+import NationalRail from './NationalRail';
+import Tube from './Tube';
+import About from './About';
 
-const ViewMainContainer = styled.div``
+const ViewMainContainer = styled.div``;
 
 const ContentWrapper = styled.div`
   height: 100%;
@@ -21,12 +21,12 @@ const ContentWrapper = styled.div`
       navbar: { height, units },
     },
   }) => `${height}${units}`};
-`
+`;
 
 const RouteContainer = posed(ContentWrapper)({
   enter: { opacity: 1, transition: { duration: 350 } },
   exit: { opacity: 0, transition: { duration: 350 } },
-})
+});
 
 const PosedRouter = ({ children }) => (
   <Location>
@@ -38,7 +38,7 @@ const PosedRouter = ({ children }) => (
       </PoseGroup>
     )}
   </Location>
-)
+);
 
 const ViewMain = () => (
   <ViewMainContainer>
@@ -53,6 +53,6 @@ const ViewMain = () => (
     </PosedRouter>
     <Navbar />
   </ViewMainContainer>
-)
+);
 
-export default ViewMain
+export default ViewMain;

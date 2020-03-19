@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import Header from './Header'
-import Row from './Row'
-import Input from './Input'
+import Header from './Header';
+import Row from './Row';
+import Input from './Input';
 
 const StyledForm = styled.div`
   background-color: ${({ theme }) => theme.colours.bus.colour};
@@ -18,39 +18,39 @@ const StyledForm = styled.div`
       navbar: { height, units },
     },
   }) => `${height}${units}`};
-`
+`;
 
 class BusControlForm extends PureComponent {
   updateTimeoutId = null
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       stopCode: null,
-    }
+    };
   }
 
-  handleChange = e => {
-    const { setStopCode } = this.props
+  handleChange = (e) => {
+    const { setStopCode } = this.props;
 
-    e.persist()
+    e.persist();
 
-    const updatedStopCode = e.target.value === '' ? null : e.target.value
+    const updatedStopCode = e.target.value === '' ? null : e.target.value;
 
-    clearTimeout(this.updateTimeoutId)
+    clearTimeout(this.updateTimeoutId);
 
     this.setState({ stopCode: updatedStopCode }, () => {
-      const { stopCode } = this.state
+      const { stopCode } = this.state;
 
       this.updateTimeoutId = setTimeout(() => {
-        setStopCode(stopCode)
+        setStopCode(stopCode);
 
         if (stopCode !== null && stopCode.length === 5) {
-          e.target.blur()
+          e.target.blur();
         }
-      }, 1000)
-    })
+      }, 1000);
+    });
   }
 
   render() {
@@ -67,8 +67,8 @@ class BusControlForm extends PureComponent {
           />
         </Row>
       </StyledForm>
-    )
+    );
   }
 }
 
-export default BusControlForm
+export default BusControlForm;

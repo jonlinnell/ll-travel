@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMapPin } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 const PristinePanel = styled.div`
   height: 100vh;
@@ -19,16 +19,16 @@ const PristinePanel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
+`;
 
 const PristineText = styled.h3`
   font-size: 1.4rem;
   font-weight: 300;
-`
+`;
 
 const PristineChildren = styled.div`
   margin: 0 16px;
-`
+`;
 
 export default ({ children, text }) => (
   <PristinePanel>
@@ -36,4 +36,4 @@ export default ({ children, text }) => (
     <PristineText>{text}</PristineText>
     <PristineChildren>{children}</PristineChildren>
   </PristinePanel>
-)
+);

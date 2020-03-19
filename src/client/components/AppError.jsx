@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-const { supportContact } = process.env
+const { supportContact } = process.env;
 
 const AppError = styled.div`
   width: ${({ fill }) => (fill ? '100%' : 'initial')};
@@ -21,7 +21,7 @@ const AppError = styled.div`
   padding: ${({ contained }) => (contained ? '32px 12px' : 'initial')};
 
   border-radius: ${({ contained, theme: { radius } }) => (contained ? radius : 0)};
-`
+`;
 
 const ErrorTitle = styled.h4`
   color: black;
@@ -30,7 +30,7 @@ const ErrorTitle = styled.h4`
   text-align: center;
 
   width: 80%;
-`
+`;
 
 const ErrorMessage = styled.p`
   color: black;
@@ -39,19 +39,19 @@ const ErrorMessage = styled.p`
   text-align: center;
 
   margin-top: 0;
-`
+`;
 
-const generateHumanReadableError = error => {
+const generateHumanReadableError = (error) => {
   if (error.errorString) {
-    return error.errorString
+    return error.errorString;
   }
 
   if (!error.status) {
-    return "It's not possible to connect to the server at the moment."
+    return "It's not possible to connect to the server at the moment.";
   }
 
-  return "That's about all we know."
-}
+  return "That's about all we know.";
+};
 
 export default ({ error, description, ...rest }) => (
   <AppError {...rest}>
@@ -65,4 +65,4 @@ export default ({ error, description, ...rest }) => (
       <ErrorMessage small>{`Please report this to ${supportContact}.`}</ErrorMessage>
     ) : null}
   </AppError>
-)
+);

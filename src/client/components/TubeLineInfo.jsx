@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import posed from 'react-pose'
+import React from 'react';
+import styled from 'styled-components';
+import posed from 'react-pose';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const LineContainer = styled.li`
   padding: 12px;
@@ -11,19 +11,19 @@ const LineContainer = styled.li`
 
   background-color: ${({ id, theme }) => theme.lines[id].colour};
   color: ${({ id, theme }) => theme.lines[id].text};
-`
+`;
 
 const LineName = styled.h4`
   margin: 0;
   font-size: 1rem;
-`
+`;
 
 const LineStatusSummary = styled.p`
   margin: 0;
   font-size: 0.9rem;
   text-align: right;
   font-family: 'DIN Extlight';
-`
+`;
 
 const Summary = styled.div`
   display: flex;
@@ -31,12 +31,12 @@ const Summary = styled.div`
   flex-wrap: nowrap;
   justify-content: space-between;
   align-items: center;
-`
+`;
 
 const PosedLineContainer = posed(LineContainer)({
   enter: { y: 0, opacity: 1 },
   exit: { y: -20, opacity: 0 },
-})
+});
 
 const TubeLineInfo = ({ line: { id, name, lineStatuses } }) => (
   <PosedLineContainer id={id}>
@@ -55,6 +55,6 @@ const TubeLineInfo = ({ line: { id, name, lineStatuses } }) => (
       </LineStatusSummary>
     </Summary>
   </PosedLineContainer>
-)
+);
 
-export default TubeLineInfo
+export default TubeLineInfo;

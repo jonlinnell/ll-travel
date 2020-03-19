@@ -1,17 +1,17 @@
-import React, { PureComponent, Fragment } from 'react'
-import styled from 'styled-components'
-import axios from 'axios'
-import posed, { PoseGroup } from 'react-pose'
-import { get } from 'lodash'
+import React, { PureComponent, Fragment } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import posed, { PoseGroup } from 'react-pose';
+import { get } from 'lodash';
 
-import Row from './Row'
-import Input from './Input'
+import Row from './Row';
+import Input from './Input';
 
-import { lighten } from '../lib/colours'
+import { lighten } from '../lib/colours';
 
-const { API } = process.env
+const { API } = process.env;
 
-const autocompleteId = 'autocomplete-stations'
+const autocompleteId = 'autocomplete-stations';
 
 const Autocomplete = styled.div`
   position: absolute;
@@ -21,7 +21,7 @@ const Autocomplete = styled.div`
   margin: 0;
 
   z-index: 2;
-`
+`;
 
 const StationList = styled.ul`
   color: white;
@@ -36,28 +36,28 @@ const StationList = styled.ul`
   & > :nth-child(even) {
     background-color: ${({ theme: { colours } }) => lighten(colours.rail.colour, 50)};
   }
-`
+`;
 
 const Station = styled.li`
   padding: 6px;
   font-size: 0.9rem;
-`
+`;
 
 const PosedStationList = posed(StationList)({
   enter: { opacity: 1, delayChildren: 300 },
   exit: { opacity: 0 },
-})
+});
 
 const PosedStation = posed(Station)({
   enter: { opacity: 1 },
   exit: { opacity: 0 },
-})
+});
 
 class TrainStationLookup extends PureComponent {
   timeoutId = null
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       loading: false,
@@ -65,55 +65,55 @@ class TrainStationLookup extends PureComponent {
       error: null,
       data: [],
       searchString: '',
-    }
+    };
 
-    this.handleChange = this.handleChange.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   triggerFetch = () => {
     if (this.timeoutId) {
-      clearTimeout(this.timeoutId)
+      clearTimeout(this.timeoutId);
     }
-    this.timeoutId = setTimeout(() => this.fetchData(), 500)
+    this.timeoutId = setTimeout(() => this.fetchData(), 500);
   }
 
   fetchData = () => {
-    const { searchString } = this.state
+    const { searchString } = this.state;
 
-    this.setState(prevState => ({ ...prevState, loading: true }))
+    this.setState(prevState => ({ ...prevState, loading: true }));
 
-    axios.get(`${API}/searchStations/${searchString}`).then(response => {
-      document.getElementById(autocompleteId).scrollIntoView()
-      this.setState({ data: response.data })
-    })
+    axios.get(`${API}/searchStations/${searchString}`).then((response) => {
+      document.getElementById(autocompleteId).scrollIntoView();
+      this.setState({ data: response.data });
+    });
   }
 
-  handleKeyPress = e => {
-    const { searchString } = this.state
+  handleKeyPress = (e) => {
+    const { searchString } = this.state;
 
     if (e.keyCode === 8 && searchString.length > 2) {
-      this.triggerFetch()
+      this.triggerFetch();
     }
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ searchString: e.target.value }, () => {
-      const { searchString } = this.state
-      const { onClear } = this.props
+      const { searchString } = this.state;
+      const { onClear } = this.props;
 
       if (searchString.length > 2) {
-        this.triggerFetch()
+        this.triggerFetch();
       } else if (!searchString) {
-        this.setState({ data: [] })
-        onClear()
+        this.setState({ data: [] });
+        onClear();
       }
-    })
+    });
   }
 
   render() {
-    const { searchString, data } = this.state
-    const { disabled, onSubmit, label } = this.props
+    const { searchString, data } = this.state;
+    const { disabled, onSubmit, label } = this.props;
 
     return (
       <Fragment>
@@ -123,14 +123,13 @@ class TrainStationLookup extends PureComponent {
               {data.slice(0, 10).map(station => (
                 <PosedStation
                   key={get(station, 'crs', 1)}
-                  onClick={() =>
-                    this.setState(
-                      {
-                        data: [],
-                        searchString: station.name,
-                      },
-                      () => onSubmit(station.crs)
-                    )
+                  onClick={() => this.setState(
+                    {
+                      data: [],
+                      searchString: station.name,
+                    },
+                    () => onSubmit(station.crs),
+                  )
                   }
                 >
                   {get(station, 'name', '')}
@@ -151,8 +150,8 @@ class TrainStationLookup extends PureComponent {
           />
         </Row>
       </Fragment>
-    )
+    );
   }
 }
 
-export default TrainStationLookup
+export default TrainStationLookup;

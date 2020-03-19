@@ -1,9 +1,11 @@
-import React from 'react'
-import { Link, Location } from '@reach/router'
-import styled from 'styled-components'
+import React from 'react';
+import { Link, Location } from '@reach/router';
+import styled from 'styled-components';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faSubway, faTrain, faBus, faInfo } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHome, faSubway, faTrain, faBus, faInfo,
+} from '@fortawesome/free-solid-svg-icons';
 
 const NavbarItemList = styled.ul`
   list-style: none;
@@ -20,7 +22,7 @@ const NavbarItemList = styled.ul`
       navbar: { height, units },
     },
   }) => `${height}${units}`};
-`
+`;
 
 const NavbarItem = styled.li`
   display: inline-block;
@@ -41,8 +43,7 @@ const NavbarItem = styled.li`
   & > a:visited {
     transition: color 0.3s ease-in-out;
 
-    color: ${({ active, theme: { colours } }) =>
-      active ? colours.mulberry.colour : colours.asphalt.colour};
+    color: ${({ active, theme: { colours } }) => (active ? colours.mulberry.colour : colours.asphalt.colour)};
   }
 
   & > a:focus,
@@ -57,7 +58,7 @@ const NavbarItem = styled.li`
     color: ${({ theme: { colours } }) => colours.mulberryLight.colour};
     background-color: transparent;
   }
-`
+`;
 
 const StyledNavbar = styled.div`
   width: 100%;
@@ -74,7 +75,7 @@ const StyledNavbar = styled.div`
   bottom: 0;
 
   z-index: 1;
-`
+`;
 
 const Navbar = () => (
   <StyledNavbar>
@@ -110,6 +111,6 @@ const Navbar = () => (
       )}
     </Location>
   </StyledNavbar>
-)
+);
 
-export default Navbar
+export default Navbar;

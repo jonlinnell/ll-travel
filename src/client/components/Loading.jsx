@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-import posed, { PoseGroup } from 'react-pose'
+import React, { PureComponent } from 'react';
+import styled from 'styled-components';
+import posed, { PoseGroup } from 'react-pose';
 
 const SpinnerContainer = styled.div`
   display: flex;
@@ -8,10 +8,10 @@ const SpinnerContainer = styled.div`
   align-items: center;
 
   margin-bottom: -${({
-      theme: {
-        navbar: { height, units },
-      },
-    }) => `${height}${units}`};
+    theme: {
+      navbar: { height, units },
+    },
+  }) => `${height}${units}`};
 
   position: relative;
   top: 100px;
@@ -45,7 +45,7 @@ const SpinnerContainer = styled.div`
       transform: rotateZ(0deg);
     }
   }
-`
+`;
 
 const SpinnerRing = styled.div`
   margin: 0;
@@ -60,12 +60,12 @@ const SpinnerRing = styled.div`
   border-right-color: transparent;
   animation: ${({ secondary }) => (secondary ? 'rotate' : 'rotate2')} 2s
     cubic-bezier(0.26, 1.36, 0.74, -0.29) infinite;
-`
+`;
 
 const PosedContainer = posed.div({
   enter: { opacity: 1 },
   exit: { opacity: 0 },
-})
+});
 
 const Spinner = () => (
   <SpinnerContainer>
@@ -74,34 +74,34 @@ const Spinner = () => (
     <SpinnerRing size={240} />
     <SpinnerRing size={260} secondary />
   </SpinnerContainer>
-)
+);
 
 class Loading extends PureComponent {
   timeoutId = null
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       showSpinners: false,
-    }
+    };
   }
 
   componentDidUpdate(prevProps) {
-    const { loading } = this.props
+    const { loading } = this.props;
 
     if (prevProps.loading !== loading) {
-      this.timeoutId = setTimeout(() => this.setState({ showSpinners: true }), 500)
+      this.timeoutId = setTimeout(() => this.setState({ showSpinners: true }), 500);
     }
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeoutId)
+    clearTimeout(this.timeoutId);
   }
 
   render() {
-    const { showSpinners } = this.state
-    const { children, loading } = this.props
+    const { showSpinners } = this.state;
+    const { children, loading } = this.props;
 
     return (
       <PoseGroup animateOnMount>
@@ -112,8 +112,8 @@ class Loading extends PureComponent {
         )}
         <PosedContainer key={2}>{children}</PosedContainer>
       </PoseGroup>
-    )
+    );
   }
 }
 
-export default Loading
+export default Loading;

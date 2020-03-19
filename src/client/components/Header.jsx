@@ -1,15 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Icon = ({ icon }) => icon()
+const Icon = ({ icon }) => icon();
 
 const HeaderWrapper = styled.div`
-  background-color: ${({ backgroundColour, theme: { colours } }) =>
-    colours[backgroundColour] ? colours[backgroundColour].colour : backgroundColour};
-  color: ${({ backgroundColour, theme: { colours } }) =>
-    colours[backgroundColour] ? colours.text[colours[backgroundColour].text] : 'rgb(0, 0, 0)'};
+  background-color: ${({ backgroundColour, theme: { colours } }) => (colours[backgroundColour] ? colours[backgroundColour].colour : backgroundColour)};
+  color: ${({ backgroundColour, theme: { colours } }) => (colours[backgroundColour] ? colours.text[colours[backgroundColour].text] : 'rgb(0, 0, 0)')};
 
   margin: ${({ topFill }) => (topFill ? '-12px' : 0)};
   margin-bottom: ${({ topFill }) => (topFill ? '12px' : 0)};
@@ -17,7 +15,7 @@ const HeaderWrapper = styled.div`
   padding: ${({ topFill }) => (topFill ? '12px' : 0)};
 
   width: ${({ topFill }) => (topFill ? null : '100%')};
-`
+`;
 
 const HeaderTitleWrapper = styled.div`
   display: flex;
@@ -37,29 +35,31 @@ const HeaderTitleWrapper = styled.div`
 
     flex-shrink: 0;
   }
-`
+`;
 
 const Title = styled.h2`
   font-size: ${({ small }) => (small ? '0.8rem' : '1.2rem')};
   color: white;
   margin: 0;
-`
+`;
 
 const Subtitle = styled.p`
   margin: 0;
   margin-top: 12px;
   color: rgb(255, 255, 255);
-`
+`;
 
-export default ({ backgroundColour, icon, small, subtitle, title, topFill, useFA }) => {
-  let iconElement
+export default ({
+  backgroundColour, icon, small, subtitle, title, topFill, useFA,
+}) => {
+  let iconElement;
 
   if (useFA && icon) {
-    iconElement = <FontAwesomeIcon icon={icon} />
+    iconElement = <FontAwesomeIcon icon={icon} />;
   } else if (icon) {
-    iconElement = <Icon icon={icon} />
+    iconElement = <Icon icon={icon} />;
   } else {
-    iconElement = null
+    iconElement = null;
   }
 
   return (
@@ -70,5 +70,5 @@ export default ({ backgroundColour, icon, small, subtitle, title, topFill, useFA
       </HeaderTitleWrapper>
       <Subtitle>{subtitle}</Subtitle>
     </HeaderWrapper>
-  )
-}
+  );
+};

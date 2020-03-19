@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 
 const Input = styled.input`
   display: block;
@@ -27,6 +27,6 @@ const Input = styled.input`
     background-size: 100% 2px, 100% 1px;
     outline: none;
   }
-`
+`;
 
-export default props => <Input {...props} />
+export default props => <Input {...props} />;

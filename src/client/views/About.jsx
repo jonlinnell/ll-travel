@@ -1,15 +1,15 @@
-import React from 'react'
-import styled from 'styled-components'
-import moment from 'moment'
+import React from 'react';
+import styled from 'styled-components';
+import moment from 'moment';
 
-import LogoImg from '../images/logo.png'
+import LogoImg from '../images/logo.png';
 
 const ViewAboutWrapper = styled.div`
   margin: 2vh 12px 0 12px;
   height: 100vh;
 
   overflow-x: hidden;
-`
+`;
 
 const About = () => (
   <ViewAboutWrapper>
@@ -22,6 +22,6 @@ const About = () => (
     </p>
     <p>{`Built by Jon Linnell, ${moment().format('YYYY')}.`}</p>
   </ViewAboutWrapper>
-)
+);
 
-export default About
+export default About;

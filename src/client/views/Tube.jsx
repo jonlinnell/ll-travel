@@ -1,20 +1,19 @@
-import React, { PureComponent } from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
-import posed from 'react-pose'
+import React from 'react';
+import styled from 'styled-components';
+import posed from 'react-pose';
 
-import Attribution from '../components/Attribution'
-import TubeLineInfo from '../components/TubeLineInfo'
-import AppError from '../components/AppError'
-import Loading from '../components/Loading'
+import Attribution from '../components/Attribution';
+import TubeLineInfo from '../components/TubeLineInfo';
+import AppError from '../components/AppError';
+import Loading from '../components/Loading';
 
-const { API } = process.env
+import useApi from '../lib/use-api';
 
-const INTERVAL = 5 // in minutes
+const INTERVAL = 1 * 60 * 500; // 5 minutes
 
 const TubeStatusWrapper = styled.div`
   margin: 12px;
-`
+`;
 
 const LineWrapper = styled.ul`
   padding: 0;
@@ -33,78 +32,36 @@ const LineWrapper = styled.ul`
       border-bottom-right-radius: ${props => props.theme.radius};
     }
   }
-`
+`;
 
 const PosedLineContainer = posed(LineWrapper)({
   enter: { beforeChildren: true, delayChildren: 100, staggerChildren: 20 },
   exit: { staggerChildren: 10, staggerDirection: -1 },
-})
+});
 
-class TubeStatus extends PureComponent {
-  intervalId = null
+const TubeStatus = () => {
+  const response = useApi({
+    endpoint: '/tube',
+    interval: INTERVAL,
+  });
 
-  constructor(props) {
-    super(props)
+  return (
+    <TubeStatusWrapper>
+      <Loading loading={!response}>
+        <PosedLineContainer initialPose="exit" pose={response ? 'enter' : 'exit'}>
+          {response && response.data.map(line => (
+            <TubeLineInfo line={line} key={line.id} />
+          ))}
+        </PosedLineContainer>
+      </Loading>
+      {response && (
+        <Attribution>
+          Powered by TfL Open Data. Visit tfl.gov.uk for more information.
+        </Attribution>
+      )}
+      {response && response.status !== 200 && <AppError error={response.statusText} callerDescription="the tube status" contained />}
+    </TubeStatusWrapper>
+  );
+};
 
-    this.state = {
-      data: [],
-      loading: false,
-      error: null,
-      hasError: false,
-    }
-  }
-
-  componentDidMount() {
-    this.fetchData()
-    this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 60000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId)
-  }
-
-  fetchData = () => {
-    this.setState({ loading: true })
-    axios
-      .get(`${API}/tube`)
-      .then(response =>
-        this.setState({
-          data: response.data,
-          loading: false,
-          hasError: false,
-          error: null,
-        })
-      )
-      .catch(error =>
-        this.setState({
-          hasError: true,
-          loading: false,
-          error,
-        })
-      )
-  }
-
-  render() {
-    const { data, loading, hasError, error } = this.state
-
-    return (
-      <TubeStatusWrapper>
-        <Loading loading={loading && !hasError}>
-          <PosedLineContainer initialPose="exit" pose={loading ? 'exit' : 'enter'}>
-            {data.map(line => (
-              <TubeLineInfo line={line} key={line.id} />
-            ))}
-          </PosedLineContainer>
-        </Loading>
-        {!loading && !hasError && (
-          <Attribution>
-            Powered by TfL Open Data. Visit tfl.gov.uk for more information.
-          </Attribution>
-        )}
-        {hasError && <AppError error={error} callerDescription="the tube status" contained />}
-      </TubeStatusWrapper>
-    )
-  }
-}
-
-export default TubeStatus
+export default TubeStatus;

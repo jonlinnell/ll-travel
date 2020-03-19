@@ -1,46 +1,46 @@
-import React, { PureComponent } from 'react'
-import axios from 'axios'
-import styled from 'styled-components'
-import posed from 'react-pose'
-import { get } from 'lodash'
+import React, { PureComponent } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import posed from 'react-pose';
+import { get } from 'lodash';
 
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import AppError from '../components/AppError'
-import Attribution from '../components/Attribution'
-import Header from '../components/Header'
-import Loading from '../components/Loading'
-import Pristine from '../components/Pristine'
-import RecentSearches from '../components/RecentSearches'
-import TrainService from '../components/TrainService'
-import TrainStationLookup from '../components/TrainStationLookup'
+import AppError from '../components/AppError';
+import Attribution from '../components/Attribution';
+import Header from '../components/Header';
+import Loading from '../components/Loading';
+import Pristine from '../components/Pristine';
+import RecentSearches from '../components/RecentSearches';
+import TrainService from '../components/TrainService';
+import TrainStationLookup from '../components/TrainStationLookup';
 
-import IconNationalRail from '../icons/NationalRail'
+import IconNationalRail from '../icons/NationalRail';
 
-import { addRailStation, getPreviousRailStations } from '../lib/storage'
+import { addRailStation, getPreviousRailStations } from '../lib/storage';
 
-const { API } = process.env
+const { API } = process.env;
 
-const INTERVAL = 1 // in minutes
+const INTERVAL = 1; // in minutes
 
-const contentContainerId = 'train-services-wrapper'
+const contentContainerId = 'train-services-wrapper';
 
 const ViewNationalRailWrapper = styled.div`
   height: 100%;
   margin-bottom: 15vh;
-`
+`;
 
 const DepartureBoardWrapper = styled.div`
   padding: 12px;
   margin-bottom: 48px;
-`
+`;
 
 const TrainServices = styled.ul`
   list-style: none;
 
   margin: 0;
   padding: 0;
-`
+`;
 
 const StyledControlForm = styled.div`
   background-color: ${({ theme }) => theme.colours.rail.colour};
@@ -55,20 +55,20 @@ const StyledControlForm = styled.div`
       navbar: { height, units },
     },
   }) => `${height}${units}`};
-`
+`;
 
 const PosedTrainServiceContainer = posed(TrainServices)({
   enter: { opacity: 1, delayChildren: 50, staggerChildren: 50 },
   exit: { opacity: 0, staggerChildren: 10, staggerDirection: -1 },
-})
+});
 
-const validateStationCode = stationCode => stationCode && stationCode.match(/[A-Z]{3}/)
+const validateStationCode = stationCode => stationCode && stationCode.match(/[A-Z]{3}/);
 
 class ViewNationalRail extends PureComponent {
   intervalId = null
 
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       data: [],
@@ -80,30 +80,30 @@ class ViewNationalRail extends PureComponent {
       pristine: true,
       stationCode: null,
       stationName: null,
-    }
+    };
 
-    this.setStationCode = this.setStationCode.bind(this)
-    this.setDestinationCode = this.setDestinationCode.bind(this)
-    this.clearStationCode = this.clearStationCode.bind(this)
-    this.clearDestinationCode = this.clearDestinationCode.bind(this)
+    this.setStationCode = this.setStationCode.bind(this);
+    this.setDestinationCode = this.setDestinationCode.bind(this);
+    this.clearStationCode = this.clearStationCode.bind(this);
+    this.clearDestinationCode = this.clearDestinationCode.bind(this);
   }
 
   componentDidMount() {
-    const { initialCode } = this.props
+    const { initialCode } = this.props;
 
-    document.getElementById(contentContainerId).scrollIntoView()
+    document.getElementById(contentContainerId).scrollIntoView();
 
     if (initialCode) {
-      this.setStationCode(initialCode)
+      this.setStationCode(initialCode);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId)
+    clearInterval(this.intervalId);
   }
 
-  setStationCode = newStationCode => {
-    clearInterval(this.intervalId)
+  setStationCode = (newStationCode) => {
+    clearInterval(this.intervalId);
 
     this.setState(
       {
@@ -111,20 +111,20 @@ class ViewNationalRail extends PureComponent {
         stationCode: newStationCode,
       },
       () => {
-        const { stationCode } = this.state
+        const { stationCode } = this.state;
 
         if (validateStationCode(stationCode)) {
-          this.fetchData()
-          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 60000)
+          this.fetchData();
+          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 60000);
         } else {
-          clearInterval(this.intervalId)
+          clearInterval(this.intervalId);
         }
-      }
-    )
+      },
+    );
   }
 
-  setDestinationCode = newDestinationCode => {
-    clearInterval(this.intervalId)
+  setDestinationCode = (newDestinationCode) => {
+    clearInterval(this.intervalId);
 
     this.setState(
       {
@@ -132,30 +132,29 @@ class ViewNationalRail extends PureComponent {
         destinationCode: newDestinationCode,
       },
       () => {
-        const { destinationCode } = this.state
+        const { destinationCode } = this.state;
 
         if (validateStationCode(destinationCode)) {
-          this.fetchData()
-          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 60000)
+          this.fetchData();
+          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 60000);
         } else {
-          clearInterval(this.intervalId)
+          clearInterval(this.intervalId);
         }
-      }
-    )
+      },
+    );
   }
 
   clearStationCode = () => this.setState({ stationCode: null, stationName: null, data: [] })
 
-  clearDestinationCode = () =>
-    this.setState({ destinationCode: null, destinationName: null }, () => this.fetchData())
+  clearDestinationCode = () => this.setState({ destinationCode: null, destinationName: null }, () => this.fetchData())
 
   fetchData = () => {
-    const { stationCode, destinationCode } = this.state
+    const { stationCode, destinationCode } = this.state;
 
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     axios
       .get(`${API}/rail/${stationCode}${destinationCode ? `/${destinationCode}` : ''}`)
-      .then(response => {
+      .then((response) => {
         this.setState({
           data: response.data.trainServices,
           destinationName: get(response.data.destination, 'name', null),
@@ -163,29 +162,29 @@ class ViewNationalRail extends PureComponent {
           hasError: false,
           loading: false,
           stationName: get(response.data.station, 'name', null),
-        })
+        });
 
-        addRailStation({ name: response.data.station.name, code: stationCode })
-        document.getElementById(contentContainerId).scrollIntoView()
+        addRailStation({ name: response.data.station.name, code: stationCode });
+        document.getElementById(contentContainerId).scrollIntoView();
       })
-      .catch(error =>
-        this.setState({
-          data: [],
-          destinationCode: null,
-          destinationName: null,
-          error,
-          hasError: true,
-          loading: false,
-          stationCode: null,
-          stationName: null,
-        })
-      )
+      .catch(error => this.setState({
+        data: [],
+        destinationCode: null,
+        destinationName: null,
+        error,
+        hasError: true,
+        loading: false,
+        stationCode: null,
+        stationName: null,
+      }));
   }
 
   render() {
-    const { data, destinationName, error, hasError, loading, pristine, stationName } = this.state
+    const {
+      data, destinationName, error, hasError, loading, pristine, stationName,
+    } = this.state;
 
-    const previousRailStations = getPreviousRailStations()
+    const previousRailStations = getPreviousRailStations();
 
     return (
       <ViewNationalRailWrapper id={contentContainerId}>
@@ -241,8 +240,8 @@ class ViewNationalRail extends PureComponent {
           />
         </StyledControlForm>
       </ViewNationalRailWrapper>
-    )
+    );
   }
 }
 
-export default ViewNationalRail
+export default ViewNationalRail;
