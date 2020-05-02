@@ -1,22 +1,22 @@
-import React, { Fragment } from 'react';
+/* global __CONFIG__ */
+
+import React from 'react';
 import { render } from 'react-dom';
 import { ThemeProvider } from 'styled-components';
-
-import AsyncLoader from './components/AsyncLoader';
 
 import theme from './styles/theme.json';
 
 import GlobalStyles from './styles/GlobalStyles';
 import Normalize from './styles/Normalize';
 
-const ViewMain = () => <AsyncLoader load={import('./views/Main')} />;
+import ViewMain from './views/Main';
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <Fragment>
+    <>
       <GlobalStyles />
       <Normalize />
-      {!process.env.API ? (
+      {!__CONFIG__.API ? (
         <div style={{ width: '100vw', padding: '10vh 5vw', textAlign: 'center' }}>
           <h1>App not configured</h1>
           <p>
@@ -28,7 +28,7 @@ const App = () => (
       ) : (
         <ViewMain />
       )}
-    </Fragment>
+    </>
   </ThemeProvider>
 );
 
