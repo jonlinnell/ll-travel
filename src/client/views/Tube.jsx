@@ -9,7 +9,7 @@ import Loading from '../components/Loading';
 
 import useApi from '../lib/use-api';
 
-const INTERVAL = 1 * 60 * 500; // 5 minutes
+const INTERVAL = 5 * 60 * 1000; // 5 minutes
 
 const TubeStatusWrapper = styled.div`
   margin: 12px;
@@ -40,26 +40,24 @@ const PosedLineContainer = posed(LineWrapper)({
 });
 
 const TubeStatus = () => {
-  const response = useApi({
-    endpoint: '/tube',
+  const { response, error, loading } = useApi({
+    endpoint: 'tube',
     interval: INTERVAL,
   });
 
   return (
     <TubeStatusWrapper>
-      <Loading loading={!response}>
-        <PosedLineContainer initialPose="exit" pose={response ? 'enter' : 'exit'}>
-          {response && response.data.map(line => (
+      <Loading loading={loading}>
+        <PosedLineContainer initialPose="exit" pose={response.data ? 'enter' : 'exit'}>
+          {response.data?.map(line => (
             <TubeLineInfo line={line} key={line.id} />
           ))}
         </PosedLineContainer>
-      </Loading>
-      {response && (
         <Attribution>
           Powered by TfL Open Data. Visit tfl.gov.uk for more information.
         </Attribution>
-      )}
-      {response && response.status !== 200 && <AppError error={response.statusText} callerDescription="the tube status" contained />}
+      </Loading>
+      {error && <AppError error={response.statusText} callerDescription="the tube status" contained />}
     </TubeStatusWrapper>
   );
 };

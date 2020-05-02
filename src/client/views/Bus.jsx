@@ -77,7 +77,7 @@ function ViewBus({ initialStopCode }) {
 
   const { response, error, loading } = useApi({
     endpoint: `bus/${stopCode}`,
-    shouldLoad: !pristine,
+    initialFetch: !pristine,
   });
 
 

@@ -9,7 +9,7 @@ const resolveArgs = (args) => {
     host: undefined,
     interval: undefined,
     method: 'get',
-    initialLoad: true,
+    initialFetch: true,
   };
 
   if (typeof args === 'string') {
@@ -40,7 +40,7 @@ function useApi(args) {
     host,
     interval,
     method,
-    shouldLoad,
+    initialFetch,
   } = resolveArgs(args);
 
   const [state, setState] = useState({
@@ -75,7 +75,7 @@ function useApi(args) {
   }
 
   useEffect(() => {
-    if (shouldLoad) {
+    if (initialFetch) {
       fetchData();
     }
   }, [endpoint]);
