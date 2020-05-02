@@ -1,5 +1,4 @@
-import React, { PureComponent } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import posed from 'react-pose';
 
@@ -16,7 +15,7 @@ import RecentSearches from '../components/RecentSearches';
 
 import { addBusStop, getPreviousBusStops } from '../lib/storage';
 
-const { API } = process.env;
+import useApi from '../lib/use-api';
 
 const INTERVAL = 30; // in seconds
 const contentContainerId = 'bus-departures-wrapper';
@@ -45,9 +44,6 @@ const PosedBusContainer = posed(BusContainer)({
   exit: { opacity: 0, staggerChildren: 10, staggerDirection: -1 },
 });
 
-// Allow xxxxx and xxxxx,xxxxx, as both are accepted by the endpoint
-const validateStopCode = stopCode => stopCode && (stopCode.length === 5 || stopCode.match(/[0-9]{5},[0-9]{5}/));
-
 const parseError = (error) => {
   if (error.response) {
     const { data, status } = error.response;
@@ -71,144 +67,73 @@ const parseError = (error) => {
   return error;
 };
 
-class ViewBus extends PureComponent {
-  intervalId = null
+function ViewBus({ initialStopCode }) {
+  const previousBusStops = getPreviousBusStops();
 
-  constructor(props) {
-    super(props);
+  const [stopCode, setStopCode] = useState(initialStopCode);
+  const [stopName, setStopName] = useState();
 
-    this.state = {
-      data: [],
-      error: null,
-      hasError: false,
-      loading: false,
-      pristine: true,
-      stopCode: null,
-      stopName: null,
-    };
+  const pristine = !stopCode;
 
-    this.setStopCode = this.setStopCode.bind(this);
-  }
+  const { response, error, loading } = useApi({
+    endpoint: `bus/${stopCode}`,
+    shouldLoad: !pristine,
+  });
 
-  componentDidMount() {
-    const { initialCode } = this.props;
 
-    document.getElementById(contentContainerId).scrollIntoView();
-
-    if (initialCode) {
-      this.setStopCode(initialCode);
+  useEffect(() => {
+    if (response.data) {
+      setStopName(response?.data.stopName);
     }
-  }
+  }, [response]);
 
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
+  // @TODO: Use PoseGroup for buses, once exit bug is fixed by maintainer
+  return (
+    <ViewBusWrapper id={contentContainerId}>
+      <Loading loading={loading}>
+        {pristine ? (
+          <Pristine text="Enter a stop code below to get started">
+            {previousBusStops && (
+              <RecentSearches previousSearches={previousBusStops} onSelect={setStopCode} />
+            )}
+          </Pristine>
+        ) : (
+          stopName && (
+            <BusDeparturesWrapper>
+              <Header
+                title={stopName}
+                subtitle="Next buses at this stop."
+                icon={faBus}
+                backgroundColour="bus"
+                topFill
+                useFA
+              />
+              <PosedBusContainer initialPose="exit" pose={loading ? 'exit' : 'enter'}>
+                {response.data?.buses.map(bus => (
+                  <BusInfo bus={bus} key={bus.journeyId} />
+                ))}
+              </PosedBusContainer>
+              <Attribution>
+                Powered by TfL Open Data. Visit tfl.gov.uk for more information.
+              </Attribution>
+            </BusDeparturesWrapper>
+          )
+        )}
+      </Loading>
 
-  setStopCode = (newStopCode) => {
-    this.setState(
       {
-        pristine: false,
-        stopCode: newStopCode,
-      },
-      () => {
-        const { stopCode } = this.state;
-
-        if (validateStopCode(stopCode)) {
-          this.fetchData();
-          this.intervalId = setInterval(() => this.fetchData(), INTERVAL * 1000);
-
-          document.getElementById(contentContainerId).scrollIntoView();
-        } else {
-          this.setState({
-            data: [],
-            stopName: null,
-          });
-
-          clearInterval(this.intervalId);
-        }
-      },
-    );
-  }
-
-  fetchData = () => {
-    const { stopCode } = this.state;
-
-    this.setState({ loading: true });
-    axios
-      .get(`${API}/bus/${stopCode}`)
-      .then((response) => {
-        this.setState({
-          data: response.data.buses,
-          error: null,
-          hasError: false,
-          loading: false,
-          stopName: response.data.stopName,
-        });
-
-        addBusStop({ name: response.data.stopName, code: stopCode });
-      })
-      .catch(error => this.setState({
-        data: [],
-        error,
-        hasError: true,
-        loading: false,
-        stopName: null,
-      }));
-  }
-
-  render() {
-    const {
-      data, error, hasError, loading, pristine, stopCode, stopName,
-    } = this.state;
-
-    const previousBusStops = getPreviousBusStops();
-
-    // @TODO: Use PoseGroup for buses, once exit bug is fixed by maintainer
-    return (
-      <ViewBusWrapper id={contentContainerId}>
-        <Loading loading={loading && !hasError && !data.length}>
-          {pristine ? (
-            <Pristine text="Enter a stop code below to get started">
-              {previousBusStops && (
-                <RecentSearches previousSearches={previousBusStops} onSelect={this.setStopCode} />
-              )}
-            </Pristine>
-          ) : (
-            stopName && (
-              <BusDeparturesWrapper>
-                <Header
-                  title={stopName}
-                  subtitle="Next buses at this stop."
-                  icon={faBus}
-                  backgroundColour="bus"
-                  topFill
-                  useFA
-                />
-                <PosedBusContainer initialPose="exit" pose={loading ? 'exit' : 'enter'}>
-                  {data.map(bus => (
-                    <BusInfo bus={bus} key={bus.journeyId} />
-                  ))}
-                </PosedBusContainer>
-                {!hasError && stopCode && data && (
-                  <Attribution>
-                    Powered by TfL Open Data. Visit tfl.gov.uk for more information.
-                  </Attribution>
-                )}
-              </BusDeparturesWrapper>
-            )
-          )}
-        </Loading>
-        {hasError && (
+        error && (
           <AppError
             error={parseError(error)}
             callerDescription="bus departure information"
             contained
           />
-        )}
-        <BusControlForm setStopCode={this.setStopCode} />
-      </ViewBusWrapper>
-    );
-  }
+        )
+      }
+
+      <BusControlForm onSetStopCode={setStopCode} />
+    </ViewBusWrapper>
+  );
 }
 
 export default ViewBus;

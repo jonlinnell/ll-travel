@@ -1,6 +1,8 @@
+/* global __CONFIG__ */
+
 import axios from 'axios';
 
-const { API } = process.env;
+const { API } = __CONFIG__;
 
 /**
  * api.
@@ -9,8 +11,8 @@ const { API } = process.env;
  * @param {string} endpoint The endpoint on the remote host to use, e.g. '/data'.
  * @param {string} host     The host to use. Defaults to process.env.API.
  */
-function api(endpoint, host = API, method = 'get') {
-  const url = `${host}${endpoint}`;
+function api({ endpoint, host = API, method = 'get' }) {
+  const url = `${host}/${endpoint}`;
 
   return new Promise((resolve, reject) => {
     axios[method](url)

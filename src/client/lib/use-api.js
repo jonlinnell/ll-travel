@@ -1,5 +1,29 @@
-import { useEffect, useState, useRef } from 'react';
+import {
+  useEffect, useRef, useState,
+} from 'react';
 import api from './api';
+
+const resolveArgs = (args) => {
+  const defaultResponse = {
+    endpoint: undefined,
+    host: undefined,
+    interval: undefined,
+    method: 'get',
+    initialLoad: true,
+  };
+
+  if (typeof args === 'string') {
+    return {
+      ...defaultResponse,
+      endpoint: args,
+    };
+  }
+
+  return {
+    ...defaultResponse,
+    ...args,
+  };
+};
 
 /**
   * @name useApi.
@@ -10,28 +34,50 @@ import api from './api';
   *
   * @return response {object} The response, including data and status code.
   */
-function useApi({
-  endpoint,
-  host,
-  interval,
-  method = 'get',
-}) {
-  const [response, setResponse] = useState(null);
+function useApi(args) {
+  const {
+    endpoint,
+    host,
+    interval,
+    method,
+    shouldLoad,
+  } = resolveArgs(args);
+
+  const [state, setState] = useState({
+    response: {},
+    error: false,
+    loading: false,
+  });
+
   const fetchDataCallback = useRef();
 
   async function fetchData() {
-    try {
-      const data = await api(endpoint, host, method);
+    setState({
+      ...state,
+      loading: true,
+    });
 
-      setResponse(data);
+    try {
+      const response = await api({ endpoint, host, method });
+
+      setState({
+        ...state,
+        response,
+        loading: false,
+      });
     } catch (error) {
-      console.error('A transport error occurred.');
-      setResponse(null);
+      setState({
+        ...state,
+        error,
+        loading: false,
+      });
     }
   }
 
   useEffect(() => {
-    fetchData();
+    if (shouldLoad) {
+      fetchData();
+    }
   }, [endpoint]);
 
   useEffect(() => {
@@ -48,7 +94,7 @@ function useApi({
     }
   }, [interval]);
 
-  return response;
+  return state;
 }
 
 export default useApi;

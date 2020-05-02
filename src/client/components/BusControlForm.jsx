@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,55 +20,39 @@ const StyledForm = styled.div`
   }) => `${height}${units}`};
 `;
 
-class BusControlForm extends PureComponent {
-  updateTimeoutId = null
+const validateStopCode = stopCode => stopCode && (stopCode.length === 5 || stopCode.match(/[0-9]{5},[0-9]{5}/));
 
-  constructor(props) {
-    super(props);
+const BusControlForm = ({ onSetStopCode }) => {
+  const [stopCode, setStopCode] = useState();
 
-    this.state = {
-      stopCode: null,
-    };
-  }
+  useEffect(() => {
+    if (validateStopCode(stopCode) || stopCode === null) {
+      onSetStopCode(stopCode);
+    }
+  }, [stopCode]);
 
-  handleChange = (e) => {
-    const { setStopCode } = this.props;
-
+  const handleChange = (e) => {
     e.persist();
 
     const updatedStopCode = e.target.value === '' ? null : e.target.value;
 
-    clearTimeout(this.updateTimeoutId);
+    setStopCode(updatedStopCode);
+  };
 
-    this.setState({ stopCode: updatedStopCode }, () => {
-      const { stopCode } = this.state;
-
-      this.updateTimeoutId = setTimeout(() => {
-        setStopCode(stopCode);
-
-        if (stopCode !== null && stopCode.length === 5) {
-          e.target.blur();
-        }
-      }, 1000);
-    });
-  }
-
-  render() {
-    return (
-      <StyledForm>
-        <Header title="Enter a stop code" icon={faSearch} useFA small />
-        <Row>
-          <Input
-            placeholder="5-digit stop code"
-            type="number"
-            name="stopCode"
-            id="stopCode"
-            onChange={this.handleChange}
-          />
-        </Row>
-      </StyledForm>
-    );
-  }
-}
+  return (
+    <StyledForm>
+      <Header title="Enter a stop code" icon={faSearch} useFA small />
+      <Row>
+        <Input
+          placeholder="5-digit stop code"
+          type="number"
+          name="stopCode"
+          id="stopCode"
+          onChange={handleChange}
+        />
+      </Row>
+    </StyledForm>
+  );
+};
 
 export default BusControlForm;
